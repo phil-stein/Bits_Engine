@@ -1,0 +1,244 @@
+﻿        /// <summary> Renders the Items in a Container's Elements, for each given Container. </summary>
+        /// <param name="containers"> The given Containers. </param>
+        /// <param name="projection"> The Projection-Matrix used. </param>
+        /// <param name="view"> The View-Matrix used. </param>
+        public static void RenderLayerUI(List<Container> containers, Matrix4x4 projection, Shader shader)
+        {
+            //all objects use the same shader, vertex-array, projection-matrix as they are all quads
+            shader.Use();
+            glBindVertexArray(quadVAO);
+            shader.SetMatrix4x4("projection", projection);
+
+            foreach(Container cont in containers)
+            {
+                CalcContainerFormat(cont);
+
+                foreach (Element elem in cont.elements)
+                {
+                    foreach (Item item in elem.items)
+                    {
+                        Matrix4x4 pos = Matrix4x4.Identity;
+                        pos *= Matrix4x4.CreateTranslation(new Vector3(item.xOffset, item.yOffset, 0.0f));
+                        pos *= Matrix4x4.CreateTranslation(new Vector3(.5f * item.width, .5f * item.height, 0.0f));
+
+                        Matrix4x4 trans = Matrix4x4.CreateTranslation(item.xOffset, item.yOffset, 0);
+
+                        Matrix4x4 rot = Matrix4x4.CreateRotationZ(item.rot);
+
+                        Matrix4x4 sca = Matrix4x4.CreateScale(item.width, item.height, 1.0f);
+
+                        //Matrix4x4 model = sca * rot * pos;
+                        //Matrix4x4 model = pos * rot * sca;
+                        Matrix4x4 model = sca * rot * trans;
+
+                        shader.SetMatrix4x4("model", model);
+                        shader.SetVector3("color", item.color);
+
+                        if(item.GetType() == typeof(TexturedQuad))
+                        {
+                            //glActiveTexture(GL_TEXTURE0);
+                            TexturedQuad tex = (TexturedQuad)item;
+                            tex.texture.Use();
+                        }
+
+                        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+                        /*
+                        if (item.GetType() == typeof(TexturedQuad))
+                        {
+                            TexturedQuad tex = (TexturedQuad)item;
+                            glBindTexture(GL_TEXTURE_2D, 0);
+
+                            glDeleteTexture(tex.texture.textureID);
+                        }
+                        */
+                    }
+                }
+            }
+            glBindVertexArray(0);
+        }
+        /// <summary> 
+        /// Sets the appriate pos, width, height, etc. for each Item.
+        /// <para> Based on it's relation to the Container and Element holding it. </para>
+        /// </summary>
+        /// <param name="cont"> The given Container. </param>
+        private static void CalcContainerFormat(Container cont)
+        {
+            int elemCount = 0;
+            int elemOffsetXTotal = 0;
+            int elemOffsetYTotal = 0;
+
+            foreach(Element elem in cont.elements)
+            {
+                #region CONTAINER_OFFSET_X_CONTAINER_OFFSET_Y
+                int containerOffsetX = 0;
+                int containerOffsetY = 0;
+                //adjusts the x/y values so that the calc. for the items can all be made assuming the container is layed out from the top-left
+                //the container always gets drawn with an 'anchor-point' in the top-left corner (just how opengl works)
+                //because of this we shift the position of that top-left anchor to be where it would be if 
+                //opengl instead drew its objects with the speicfied anchor so that when making the layout for ui you can simply choose where you want the anchor
+                if (cont.containerAlignment == Alignment.TopLeft)
+                {
+                    containerOffsetX = cont.xOffset;
+                    containerOffsetY = cont.yOffset;
+                }
+                else if(cont.containerAlignment == Alignment.TopCenter)
+                {
+                    containerOffsetX = cont.xOffset - (int)(cont.width * .5f);
+                    containerOffsetY = cont.yOffset;
+                }
+                else if (cont.containerAlignment == Alignment.TopRight)
+                {
+                    containerOffsetX = cont.xOffset - cont.width;
+                    containerOffsetY = cont.yOffset;
+                }
+                else if (cont.containerAlignment == Alignment.MiddleLeft)
+                {
+                    containerOffsetX = cont.xOffset;
+                    containerOffsetY = cont.yOffset - (int)(cont.height * .5f);
+                }
+                else if (cont.containerAlignment == Alignment.MiddleCenter)
+                {
+                    containerOffsetX = cont.xOffset - (int)(cont.width * .5f);
+                    containerOffsetY = cont.yOffset - (int)(cont.height * .5f);
+                }
+                else if (cont.containerAlignment == Alignment.MiddleRight)
+                {
+                    containerOffsetX = cont.xOffset - cont.width;
+                    containerOffsetY = cont.yOffset - (int)(cont.height * .5f);
+                }
+                else if (cont.containerAlignment == Alignment.BottomLeft)
+                {
+                    containerOffsetX = cont.xOffset;
+                    containerOffsetY = cont.yOffset - cont.height;
+                }
+                else if (cont.containerAlignment == Alignment.BottomCenter)
+                {
+                    containerOffsetX = cont.xOffset - (int)(cont.width * .5f);
+                    containerOffsetY = cont.yOffset - cont.height;
+                }
+                else if (cont.containerAlignment == Alignment.BottomRight)
+                {
+                    containerOffsetX = cont.xOffset - cont.width;
+                    containerOffsetY = cont.yOffset - cont.height;
+                }
+                else { throw new System.Exception("ContainerAlignment not supported."); }
+                #endregion
+
+                #region ELEMENT_OFFSET_X_ELEMENT_OFFSET_Y
+                //the x and y offset calculated based on the specified relations between the element and it's item
+                //f.e. Order.VerticalDescending increases the offset each item to have the listed beneath each other
+
+                int elemOffsetX = 0;
+                int elemOffsetY = 0;
+                
+                //
+                if (elem.elementOrder == Order.Fill)
+                {
+                    //so the fill-elem doesn't count towards the other elems offset
+                    elemCount--;
+
+                    if (elem.width == 0f)
+                        elem.width = 1.0f;
+                    if (elem.height == 0f)
+                        elem.height = 1f;
+                }
+                else if (cont.containerOrder == Order.VerticalAscending)
+                {
+                    //Vertical-Order and the elems are arranged from the bottom, this means ascending elems
+                    //elemOffsetX = (int)(cont.width * elem.width) - elemOffsetXTotal; //-total because desceneding
+                    elemOffsetY = (int)(cont.height * elem.height * elemCount) + (int)(cont.height * elem.height * elemCount * cont.padding) - elemOffsetYTotal; //-total because desceneding
+                }
+                else if (cont.containerOrder == Order.VerticalCenter)
+                {
+                    throw new System.Exception("ContainerOrder not supported.");
+                    //Vertical-Order and the elems are arranged from the top, this means descending elems
+                    //elemOffsetX = (int)(cont.width * elem.width) + elemOffsetXTotal; //+total because desceneding
+                    elemOffsetY = (int)(cont.height * elem.height * elemCount) + elemOffsetYTotal; //+total because desceneding
+                }
+                else if (cont.containerOrder == Order.VerticalDescending)
+                {
+                    //Vertical-Order and the elems are arranged from the top, this means descending elems
+                    //elemOffsetX = (int)(cont.width * elem.width) + elemOffsetXTotal; //+total because desceneding
+                    elemOffsetY = (int)(cont.height * elem.height * elemCount) - (int)(cont.height * elem.height * elemCount * -cont.padding) + elemOffsetYTotal; //+total because desceneding
+                }
+                else { throw new System.Exception("ContainerOrder not supported."); }
+                #endregion
+
+                foreach (Item item in elem.items)
+                {
+                    //the items are the only elements in 'BitsGUI' that actually get drawn to the screen
+                    //Containers and Elements are merely there to facilitate the relations between items
+                    //because of this all the offset calculated up until now gets put onto the item
+                    //these item variables are only used for rendering, when formatting the item
+                    //it has a struct of possible settings just as the Container and Element
+
+                    item.xOffset = containerOffsetX + elemOffsetX;
+                    item.yOffset = containerOffsetY + elemOffsetY;
+
+                    item.width = (int)(cont.width * elem.width);
+
+                    item.height = (int)(cont.height * elem.height);
+                }
+
+                //total amount of offset supplied this element in both axis
+                elemOffsetXTotal += elemOffsetX;
+                elemOffsetYTotal += elemOffsetY; 
+                //the amount of elems we've gone over so far
+                elemCount++;
+            }
+        }
+
+
+        //var creation
+
+            Element.ElemSettings elemSettings = new Element.ElemSettings();
+            elemSettings.items = new List<Item>();
+            elemSettings.items.Add(BitsGUIstd.std_colquad_header);
+
+            elemSettings.elementOrder = Order.VerticalDescending; //...
+            elemSettings.elementOverflow = Overflow.Show; //...
+            elemSettings.width = 1f;
+            elemSettings.height = .2f;
+            elemSettings.padding = 0f; //...
+            Element elemHeader = new Element(elemSettings);
+
+            elemSettings = new Element.ElemSettings();
+            elemSettings.items = new List<Item>();
+            elemSettings.items.Add(BitsGUIstd.std_colquad_dark);
+            
+            elemSettings.elementOrder = Order.VerticalDescending; //...
+            elemSettings.elementOverflow = Overflow.Show; //...
+            elemSettings.width = 1f;
+            elemSettings.height = .2f;
+            elemSettings.padding = 0f; //...
+            Element elemContent = new Element(elemSettings);
+
+            elemSettings = new Element.ElemSettings();
+            elemSettings.items = new List<Item>();
+            elemSettings.items.Add(BitsGUIstd.std_colquad_bg);
+            
+            elemSettings.elementOrder = Order.Fill;
+            elemSettings.elementOverflow = Overflow.Show; //...
+            elemSettings.width = 1f;
+            elemSettings.height = 1f;
+            elemSettings.padding = .1f; //...
+            Element elemBG = new Element(elemSettings);
+
+
+            Container.ContainerSettings containerSettings = new Container.ContainerSettings();
+            containerSettings.elements = new List<Element>();
+            containerSettings.elements.Add(elemHeader);
+            containerSettings.elements.Add(elemContent);
+            containerSettings.elements.Add(elemBG);
+            containerSettings.containerAlignment = Alignment.MiddleCenter;
+            containerSettings.containerOrder = Order.VerticalDescending;
+            containerSettings.containerOverflow = Overflow.Show; //...
+            containerSettings.width = 400;
+            containerSettings.height = 400;
+            containerSettings.xOffset = (int)DisplayManager.WindowSize.X / 2 + (int)(DisplayManager.WindowSize.X * 0.35f);
+            containerSettings.yOffset = (int)DisplayManager.WindowSize.Y / 2 - (int)(DisplayManager.WindowSize.Y * 0.1f);
+            containerSettings.rot = 0;
+            containerSettings.padding = 0.2f; //...
+            containerSettings.draggable = true; //...
+            Container cont = new Container(containerSettings);

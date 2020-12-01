@@ -1,0 +1,11 @@
+# build folder
+**/bin
+**/external
+
+# vim-files
+*~
+*.swp
+*.swo
+
+# rar-files
+*.rar

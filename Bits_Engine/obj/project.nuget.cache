@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "z3TwbAh++jRICwJL8aIOwKQmgAvpJi+uhZ3YmGt5CixMemIgY+jP5TkeB1oZOVTqsXfTUGiUWKjflvZgBKW/uw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Lillifee\\Documents\\Visual Studio 2019\\Bits_Engine\\Bits_Engine\\BitsCore.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Lillifee\\.nuget\\packages\\devilsharp\\0.2.9\\devilsharp.0.2.9.nupkg.sha512",
+    "C:\\Users\\Lillifee\\.nuget\\packages\\fsharp.core\\4.6.2\\fsharp.core.4.6.2.nupkg.sha512",
+    "C:\\Users\\Lillifee\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Lillifee\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\Lillifee\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}

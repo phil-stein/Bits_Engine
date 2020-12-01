@@ -1,0 +1,8 @@
+Quick guide to creating a new Project using the BitsEngine:
+
+	1. In VS Right-Click the Solution in the Solution-Explorer and choose Add/New Project
+	2. Copy the contents of the 'Include' folder in the 'Bits_Engine' Project into the 'Debug' and 'Release' Folders of the new Project
+	3. Copy the 'assets' folder from the 'TestEnvironment' Project (only Shaders and Fonts folders are required)
+	4. Open Project Properties -> Right-Click project in VS and select the Properties option
+	5. Under 'Application' select the 'Output type' to be 'Windows-Application'
+	5. Under 'Build-Events' copy the pre-, post-build-events from the 'TestEnvironment' Project into the new Project

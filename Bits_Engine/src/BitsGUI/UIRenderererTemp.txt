@@ -1,0 +1,159 @@
+﻿
+        /// <summary> 
+        /// Sets the appriate pos, width, height, etc. for each Item.
+        /// <para> Based on it's relation to the Container and Element holding it. </para>
+        /// </summary>
+        /// <param name="cont"> The given Container. </param>
+        private static void FormatContainer(Container cont, out List<Item> formatedItems)
+        {
+            //all the items we amounted throughout the countainer and su-containers
+            List<Item> totalItems_inContainer = new List<Item>();
+
+            #region CONTAINER_OFFSET_X_CONTAINER_OFFSET_Y
+            int containerOffsetX = 0;
+            int containerOffsetY = 0;
+            //adjusts the x/y values so that the calc. for the items can all be made assuming the container is layed out from the top-left
+            //the container always gets drawn with an 'anchor-point' in the top-left corner (just how opengl works)
+            //because of this we shift the position of that top-left anchor to be where it would be if 
+            //opengl instead drew its objects with the speicfied anchor so that when making the layout for ui you can simply choose where you want the anchor
+            if (cont.containerAlignment == Alignment.TopLeft)
+            {
+                containerOffsetX = cont.xPosition;
+                containerOffsetY = cont.yPosition;
+            }
+            else if (cont.containerAlignment == Alignment.TopCenter)
+            {
+                containerOffsetX = cont.xPosition - (int)(cont.width * .5f);
+                containerOffsetY = cont.yPosition;
+            }
+            else if (cont.containerAlignment == Alignment.TopRight)
+            {
+                containerOffsetX = cont.xPosition - cont.width;
+                containerOffsetY = cont.yPosition;
+            }
+            else if (cont.containerAlignment == Alignment.MiddleLeft)
+            {
+                containerOffsetX = cont.xPosition;
+                containerOffsetY = cont.yPosition - (int)(cont.height * .5f);
+            }
+            else if (cont.containerAlignment == Alignment.MiddleCenter)
+            {
+                containerOffsetX = cont.xPosition - (int)(cont.width * .5f);
+                containerOffsetY = cont.yPosition - (int)(cont.height * .5f);
+            }
+            else if (cont.containerAlignment == Alignment.MiddleRight)
+            {
+                containerOffsetX = cont.xPosition - cont.width;
+                containerOffsetY = cont.yPosition - (int)(cont.height * .5f);
+            }
+            else if (cont.containerAlignment == Alignment.BottomLeft)
+            {
+                containerOffsetX = cont.xPosition;
+                containerOffsetY = cont.yPosition - cont.height;
+            }
+            else if (cont.containerAlignment == Alignment.BottomCenter)
+            {
+                containerOffsetX = cont.xPosition - (int)(cont.width * .5f);
+                containerOffsetY = cont.yPosition - cont.height;
+            }
+            else if (cont.containerAlignment == Alignment.BottomRight)
+            {
+                containerOffsetX = cont.xPosition - cont.width;
+                containerOffsetY = cont.yPosition - cont.height;
+            }
+            else { throw new System.Exception("ContainerAlignment not supported."); }
+            #endregion
+
+            if (cont.hasSubContainers)
+            {
+                int subContsCount = 0;
+                int subContsOffsetXTotal = 0;
+                int subContsOffsetYTotal = 0;
+
+                foreach (Container subcont in cont.subContainers)
+                {
+                    CalcContainer(subcont);
+                    //amount the total offset and width and stuff here
+
+                    //what if this container also has sub-containers ???
+
+                    //set the items params
+                    if (subcont.hasItems)
+                    {
+                        CalcContainerItems(subcont.items);
+                        //add the new items to the totalitems-list
+                    }
+
+                }
+
+                //total amount of offset supplied over  in both axis
+                subContsOffsetXTotal += elemOffsetX;
+                subContsOffsetYTotal += elemOffsetY;
+                //the amount of elems we've gone over so far
+                subContsCount++;
+            }
+
+        }
+
+        private static void CalcContainer(Container cont, out Container itemContainer, out int item_xOffset, out int item_yOffset, out int item_width, out int item_height)
+        {
+            #region ELEMENT_OFFSET_X_ELEMENT_OFFSET_Y
+            //the x and y offset calculated based on the specified relations between the element and it's item
+            //f.e. Order.VerticalDescending increases the offset each item to have the listed beneath each other
+
+            int subContOffsetX = 0;
+            int subContOffsetY = 0;
+
+            Container subCont;
+            //
+            if (subCont.elementOrder == Order.Fill)
+            {
+                //so the fill-elem doesn't count towards the other elems offset
+                elemCount--;
+
+                if (subCont.width == 0f)
+                    subCont.width = 1.0f;
+                if (subCont.height == 0f)
+                    subCont.height = 1f;
+            }
+            else if (cont.containerOrder == Order.VerticalAscending)
+            {
+                //Vertical-Order and the elems are arranged from the bottom, this means ascending elems
+                //elemOffsetX = (int)(cont.width * elem.width) - elemOffsetXTotal; //-total because desceneding
+                subContOffsetY = (int)(cont.height * subCont.height * elemCount) + (int)(cont.height * subCont.height * elemCount * cont.padding) - elemOffsetYTotal; //-total because desceneding
+            }
+            else if (cont.containerOrder == Order.VerticalCenter)
+            {
+                throw new System.Exception("ContainerOrder not supported.");
+                //Vertical-Order and the elems are arranged from the top, this means descending elems
+                //elemOffsetX = (int)(cont.width * elem.width) + elemOffsetXTotal; //+total because desceneding
+                subContOffsetY = (int)(cont.height * subCont.height * elemCount) + elemOffsetYTotal; //+total because desceneding
+            }
+            else if (cont.containerOrder == Order.VerticalDescending)
+            {
+                //Vertical-Order and the elems are arranged from the top, this means descending elems
+                //elemOffsetX = (int)(cont.width * elem.width) + elemOffsetXTotal; //+total because desceneding
+                subContOffsetY = (int)(cont.height * subCont.height * elemCount) - (int)(cont.height * subCont.height * elemCount * -cont.padding) + elemOffsetYTotal; //+total because desceneding
+            }
+            else { throw new System.Exception("ContainerOrder not supported."); }
+            #endregion
+        }
+
+        private static void CalcContainerItems(Container cont, int total_xOffset, int total_yOffset, int total_width, int total_height)
+        {
+            foreach (Item item in elem.items)
+            {
+                //the items are the only elements in 'BitsGUI' that actually get drawn to the screen
+                //Containers and Elements are merely there to facilitate the relations between items
+                //because of this all the offset calculated up until now gets put onto the item
+                //these item variables are only used for rendering, when formatting the item
+                //it has a struct of possible settings just as the Container and Element
+
+                item.xOffset = containerOffsetX + elemOffsetX;
+                item.yOffset = containerOffsetY + elemOffsetY;
+
+                item.width = (int)(cont.width * elem.width);
+
+                item.height = (int)(cont.height * elem.height);
+            }
+        }

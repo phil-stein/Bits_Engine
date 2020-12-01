@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon></ApplicationIcon>
+    <Product>Bits_Engine</Product>
+    <Configurations>Debug;Release;Debug_Win</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>TRACE;-define:BITS_WIN</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Win|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>TRACE;BITS_WIN</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevILSharp" Version="0.2.9" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DevILSharp">
+      <HintPath>include\DevILSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <HintPath>include\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpFont">
+      <HintPath>include\SharpFont.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="RD /S /Q &quot;$(TargetDir)cs\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)da\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)de\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)es\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)fa\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)fi\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)fr\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)it\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)ko\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)mk\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)nl\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)pl\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)pt\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)ru\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)sv\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)tr\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)ja\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)en\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)pt-BR\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)zh-CN\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)zh-Hans\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)zh-Hant\&quot;" />
+  </Target>
+ 
+  
+</Project>

@@ -1,0 +1,114 @@
+﻿        private class uvIndexed
+        {
+            public Vector2 uv;
+            public int vertID;
+
+            public uvIndexed(Vector2 uv, int vertID)
+            {
+                this.uv = uv;
+                this.vertID = vertID;
+            }
+        }
+
+        /// <summary>
+        /// Import an .obj file as a Mesh-Component.
+        /// <para> The 'useAssetsModelsDir' bool specifies whether the file-path chosen should be the 'assets\Models\fileName' or just the fileName. </para>
+        /// <para> Use 'ImportSetting.png' in 'assets\BlendFiles' to see what blender export setings need to be set. </para>
+        /// <para> Center the object(alt+g) and apply all transforms(ctrl+a) before export for optimal result. </para>
+        /// </summary>
+        /// <param name="mat"> Material of the Mesh. </param>
+        /// <param name="fileName"> Name of the .obj file. </param>
+        /// <param name="useAssetsModelsDir"> Specifies whether the file-path chosen should be the 'assets\Models\fileName' or just the fileName. </param>
+        /// <returns></returns>
+        public static Mesh Import(Material mat, string fileName, bool useAssetsModelsDir = true)
+        {
+            bool fileExt = fileName.Contains(".obj"); //checks whether the given name has the file-extension in it, to pass it extra or not
+            string path = useAssetsModelsDir ? DataManager.assetsPath + @"\Models\" + fileName + (fileExt ? "" : ".obj") : fileName;
+            if (!File.Exists(path)) { Debug.WriteLine("!!! File '" + path + "' doesn't exist !!!"); return null; }
+            
+            //Debug.WriteLine(fileName + "------------------------------");
+
+            //arrays for the Imported-Data
+            List<Vector3> pos = new List<Vector3>();
+            Vector3[] normals;
+            List<Vector2> uvs = new List<Vector2>();
+            List<uint> tris = new List<uint>();
+
+            List<uvIndexed> uvSorted = new List<uvIndexed>();
+
+            int posNum = 0;
+            int triNum = 0;
+            int uvNum = 0;
+            foreach (string line in File.ReadLines(path))
+            {
+                string[] entries = line.Split(" ");
+                if(entries[0] == "v")
+                {
+                    //vertex-data
+
+                    //Debug.WriteLine("Vertex: ");
+                    //Debug.WriteLine(entries[0] + " " + entries[1] + " " + entries[2] + " " + entries[3]);
+                    //culture-info to read the '.'-dot as the divider between integral and decimal numbers (as some local threads are set to use a  ','-comma)
+                    float x = float.Parse(entries[1], CultureInfo.InvariantCulture.NumberFormat);
+                    float y = float.Parse(entries[2], CultureInfo.InvariantCulture.NumberFormat);
+                    float z = float.Parse(entries[3], CultureInfo.InvariantCulture.NumberFormat);
+                    //Debug.WriteLine(x.ToString() + " " + y.ToString() + " " + z.ToString() + "\n");
+                    pos.Add(new Vector3(x, y, z));
+
+                    posNum++;
+                }
+                else if(entries[0] == "vt")
+                {
+                    //uv-data
+                    float u = float.Parse(entries[1], CultureInfo.InvariantCulture.NumberFormat);
+                    float v = float.Parse(entries[2], CultureInfo.InvariantCulture.NumberFormat);
+                    uvs.Add(new Vector2(u, v));
+
+                    uvNum++;
+                }
+                else if(entries[0] == "f")
+                {
+                    //Debug.WriteLine("Face: ");
+                    //Debug.WriteLine(entries[0] + " " + entries[1] + " " + entries[2] + " " + entries[3]);
+                    for(int n = 0; n < 3; n++)
+                    {
+                        //gets the num TRI-ID out of the data-format TRI-ID/UV/NORM
+                        string[] strs = entries[n + 1].Split("/");
+                        uint triID = uint.Parse(strs[0], CultureInfo.InvariantCulture.NumberFormat) -1; //-1, because .obj triangle indexes start at 1 not 0
+                        tris.Add(triID);
+                        
+                        Vector2 uv = uvs[int.Parse(strs[1], CultureInfo.InvariantCulture.NumberFormat) -1]; //-1, because .obj triangle indexes start at 1 not 0
+
+                        uvSorted.Add(new uvIndexed(uv, (int)triID));
+
+                        //Debug.Write(tris[triNum].ToString() + " ");
+
+                        triNum++;
+                    }
+                    //Debug.Write("\n");
+                }
+            }
+
+            //arrays for the GameObject
+            float[] verts = new float[pos.Count * 8];
+
+            //fill the vert array
+            for(int i = 0; i < pos.Count; i++)
+            {
+                verts[i * 8 + 0] = pos[i].X;
+                verts[i * 8 + 1] = pos[i].Y;
+                verts[i * 8 + 2] = pos[i].Z;
+
+                //verts[i * 8 + 6] = uvSorted[i].X;
+                //verts[i * 8 + 7] = uvSorted[i].Y;
+            }
+            foreach(uvIndexed x in uvSorted)
+            {
+                verts[x.vertID * 8 + 6] = uvSorted[x.vertID].uv.X;
+                verts[x.vertID * 8 + 7] = uvSorted[x.vertID].uv.Y;
+            }
+
+            Mesh m = new Mesh(verts, tris.ToArray(), mat);
+            m.CalcNormalsSmooth();
+            return m;
+        }
