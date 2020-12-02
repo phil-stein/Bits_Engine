@@ -1,4 +1,6 @@
 # Bits_Engine
+![Logo](/TestEnvironment/assets/Textures/bits_engine_logo_v08_512px.ico)
+Format: ![Alt Text](url)
 OpenGL &amp; C# Game-Engine for Windows
 
 ## Table Of Contents
