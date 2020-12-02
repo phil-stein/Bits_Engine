@@ -1,4 +1,4 @@
-# Bits_Engine
+# Bits Engine
 OpenGL &amp; C# Game-Engine for Windows
 
 <img src="https://github.com/phil-stein/Bits_Engine/blob/main/Bits_Engine/Bits_Engine-Logo_v08_512px.png" alt="logo" width="100">
