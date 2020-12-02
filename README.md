@@ -1,6 +1,5 @@
 # Bits_Engine
-![Logo](/TestEnvironment/assets/Textures/bits_engine_logo_v08_512px.ico)
-Format: ![Alt Text](url)
+![Logo](https://github.com/phil-stein/Bits_Engine/blob/main/TestEnvironment/assets/Textures/bits_engine_logo_v08_512px.ico | width=100)
 OpenGL &amp; C# Game-Engine for Windows
 
 ## Table Of Contents
