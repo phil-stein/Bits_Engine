@@ -2,9 +2,9 @@
 OpenGL &amp; C# Game-Engine for Windows
 
 ## Table Of Contents
-1. [Description / Premise](https://github.com/phil-stein/Bits_Engine/blob/main/README.md#basic-description)
-2. [...](https://github.com/phil-stein/Bits_Engine/blob/main/README.md#...)
-3. [Todo](https://github.com/phil-stein/Bits_Engine/blob/main/README.md#todo)
+1. [Description / Premise](https://github.com/phil-stein/Bits_Engine#description--premise)
+2. [...](https://github.com/phil-stein/Bits_Engine#)
+3. [Todo](https://github.com/phil-stein/Bits_Engine#todo)
 
 ## Description / Premise
 A simple to use **100% C#** Game-Engine, to create 3D (2D planned) games, 
