@@ -1,7 +1,7 @@
 # Bits_Engine
-<img src="https://github.com/phil-stein/Bits_Engine/blob/main/Bits_Engine/Bits_Engine-Logo_v08_512px.png" alt="logo" width="100">
-
 OpenGL &amp; C# Game-Engine for Windows
+
+<img src="https://github.com/phil-stein/Bits_Engine/blob/main/Bits_Engine/Bits_Engine-Logo_v08_512px.png" alt="logo" width="100">
 
 ## Table Of Contents
 1. [Description / Premise](https://github.com/phil-stein/Bits_Engine#description--premise)
