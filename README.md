@@ -1,5 +1,6 @@
 # Bits_Engine
-![Logo](https://github.com/phil-stein/Bits_Engine/blob/main/Bits_Engine/Bits_Engine-Logo_v08_512px.png | width=100)
+<img src="https://github.com/phil-stein/Bits_Engine/blob/main/Bits_Engine/Bits_Engine-Logo_v08_512px.png" alt="logo" width="100">
+
 OpenGL &amp; C# Game-Engine for Windows
 
 ## Table Of Contents
