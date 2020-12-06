@@ -106,7 +106,7 @@ namespace BitsCore
         public static Mesh GetMesh(string name)
         {
             //asset not gathered yet
-            if (!meshDict.ContainsKey(name)) { BBug.Log("!!! No Mesh of specified name in AssetManager !!!"); return null; }
+            if (!meshDict.ContainsKey(name)) { BBug.Log("!!! No Mesh of name " + name + "  in AssetManager !!!"); return null; }
 
             //asset already loaded
             if (meshDict[name].loaded) { return (Mesh)meshDict[name].asset; }

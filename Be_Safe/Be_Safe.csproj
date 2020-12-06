@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>BeSafe</AssemblyName>
+    <RootNamespace>BeSafe</RootNamespace>
+    <StartupObject>BeSafe.Program</StartupObject>
+    <ApplicationIcon>bits_engine_logo_v08_512px.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bits_Engine\BitsCore.csproj" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="RD /S /Q &quot;$(TargetDir)assets\&quot;&#xD;&#xA;xcopy &quot;$(ProjectDir)assets\*.*&quot; &quot;$(TargetDir)assets&quot; /-y /i /e" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="RD /S /Q &quot;$(TargetDir)cs\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)da\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)de\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)es\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)fa\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)fi\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)fr\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)it\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)ko\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)mk\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)nl\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)pl\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)pt\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)ru\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)sv\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)tr\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)ja\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)en\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)pt-BR\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)zh-CN\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)zh-Hans\&quot;&#xD;&#xA;RD /S /Q &quot;$(TargetDir)zh-Hant\&quot;" />
+  </Target>
+
+</Project>

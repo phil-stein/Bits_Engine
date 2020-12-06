@@ -211,28 +211,6 @@ namespace BitsCore.Rendering.Cameras
                 {
                     transform.Move(transform.GetRight() * 5f * GameTime.DeltaTime);
                 }
-
-                //cam-rotation
-                //'delete' rotates cam clock-wise around World.Up Axis
-                if (Input.IsDown(KeyCode.Delete))
-                {
-                    transform.Rotate(new Vector3(0f, 5f * GameTime.DeltaTime, 0f));
-                }
-                //'pagedown' rotates cam counter-clock-wise around World.y aka World.Up Axis
-                if (Input.IsDown(KeyCode.PageDown))
-                {
-                    transform.Rotate(new Vector3(0f, -5f * GameTime.DeltaTime, 0f));
-                }
-                //'home'('pos1') rotates cam clock-wise around World.x Axis
-                if (Input.IsDown(KeyCode.Home))
-                {
-                    transform.Rotate(new Vector3(5f * GameTime.DeltaTime, 0f, 0f));
-                }
-                //'end'('ende') rotates cam counter-clock-wise around World.x Axis
-                if (Input.IsDown(KeyCode.End))
-                {
-                    transform.Rotate(new Vector3(5f * GameTime.DeltaTime, 0f, 0f));
-                }
             }
             //rotate around local y-axis
             else if (cameraMode == CameraMode.RotateAroundCenter)

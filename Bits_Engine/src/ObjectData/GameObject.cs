@@ -201,7 +201,7 @@ namespace BitsCore.ObjectData
             //GameObject obj = new GameObject(new Transform(pos, rot, scale), "LightSource_Light"); 
             //GameObject obj = Serializer.ReadGameObjectFromFile(DataManager.assetsPath, @"\SerializedData\Models\"); //Pyramids\pyramid_bevel01
             //obj.SetTransform(new Transform(pos, rot, scale));
-            GameObject obj = CreateFromFile(pos, rot, scale, mat, @"\Gizmos\arrow_down");
+            GameObject obj = CreateFromFile(pos, rot, scale, mat, @"arrow_down");
             obj.SetTag("LightSource_DirectionalLight");
             obj.GetComp<Model>().SetMaterial(mat);
 
@@ -227,7 +227,7 @@ namespace BitsCore.ObjectData
         /// <param name="strength"> Strength of the LightSource. </param>
         public static GameObject CreatePointLight(Vector3 pos, Vector3 rot, Vector3 scale, Material mat, Vector3 diffuse, float strength, float constant = 1.0f, float linear = 0.09f, float quadratic = 0.032f)
         {
-            GameObject obj = CreateFromFile(pos, rot, scale * .3f, mat, @"\Gizmos\lightbulb");
+            GameObject obj = CreateFromFile(pos, rot, scale * .3f, mat, @"lightbulb");
             obj.SetTag("LightSource_PointLight");
             obj.GetComp<Model>().SetMaterial(mat);
 
@@ -254,7 +254,7 @@ namespace BitsCore.ObjectData
         /// <param name="strength"> Strength of the LightSource. </param>
         public static GameObject CreateSpotLight(Vector3 pos, Vector3 rot, Vector3 scale, Material mat, Vector3 diffuse, float strength, float outerCutOff = 17.5f, float innerCutOff = 12.5f, float constant = 1.0f, float linear = 0.09f, float quadratic = 0.032f)
         {
-            GameObject obj = CreateFromFile(pos, rot, scale * .5f, mat, @"\Gizmos\flashlight");
+            GameObject obj = CreateFromFile(pos, rot, scale * .5f, mat, @"flashlight");
             obj.SetTag("LightSource_SpotLight");
             obj.GetComp<Model>().SetMaterial(mat);
 
