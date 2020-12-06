@@ -59,7 +59,7 @@ namespace BeSafe
             gameObjects.Add(GameObject.CreateFromFile(new Vector3(1.5f, 0f, 0f), Vector3.UnitY * -90f, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "Ground"));
             environCollider.Add(new RectCollider(2, 0, 8, 4));
 
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 0f, -6f), Vector3.UnitY * 180f, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "robot01_LD"));
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 8f, -6f), Vector3.UnitY * 180f, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "robot01_LD"));
             gameObjects[gameObjects.Count - 1].AddComp(new PlayerController(1, 2)); //add script-comp
 
             BBug.StartTimer("Lights creation");
@@ -81,7 +81,7 @@ namespace BeSafe
             //Renderer.bgCol = new Vector3((float)10 / 255, (float)16 / 255, (float)25 / 255); //darker-blue
 
             //instatiates mainCam setting position and rotation, set the CameraMode
-            Renderer.mainCam = new Camera3D(new Vector3(-25f, 6f, 0f), new Vector3(0f, 0f, 0f), Camera3D.CameraMode.Fly);
+            Renderer.mainCam = new Camera3D(new Vector3(-30f, 18f, 0f), new Vector3(0f, 0f, 0f), Camera3D.CameraMode.Fly);
 
 
             //adds a layer for 3d-objects and submits the created objs in 'gameObjects' to that layer

@@ -31,23 +31,8 @@ namespace BeSafe.Scripts
             Vector3 movement = Vector3.Zero;
             //gravity
             float gravity = 9.81f * GameTime.DeltaTime;
-            movement += Vector3.UnitY * -gravity * 2.0f;
+            movement += Vector3.UnitY * -gravity * 1.0f;
 
-            float speed = 50f * GameTime.DeltaTime;
-            if (Input.IsDown(KeyCode.UpArrow))
-            {
-                movement += Vector3.UnitY * speed * 0.75f;
-            }
-            if (Input.IsDown(KeyCode.RightArrow))
-            {
-                movement += Vector3.UnitZ * speed * 0.25f;
-            }
-            if (Input.IsDown(KeyCode.LeftArrow))
-            {
-                movement += -Vector3.UnitZ * speed * 0.25f;
-            }
-
-            Vector3 movementBefCol = movement;
 
             //collisions
             foreach (RectCollider rect in ((BeSafeApp)Program.app).environCollider)
@@ -56,28 +41,56 @@ namespace BeSafe.Scripts
                 playerRect.yPos = gameObject.transform.position.Y;
                 collision = RectCollider.CheckCollision(playerRect, rect);
 
+
+                //BBug.Log("Collision Dir: " + collision.collisionDir);
                 BBug.Log("xOverlap: " + collision.xOverlap);
-                if (collision.xOverlap > 0f && movement.Z != 0f)
+                if (collision.xOverlap != 0f && movement.Z != 0f)
                 {
                     gameObject.GetComp<Model>().SetMaterial(AssetManager.GetMaterial("Mat_GreenRubber"));
 
                     movement = new Vector3(0f, movement.Y, 0f);
+                    //if (collision.collisionDir.HasFlag(CollisionDir.Left))
+                    //{
+                    //    movement += new Vector3(0f, 0f, collision.xOverlap * 0.5f); //z is forward/backward in this case not x
+                    //}
+                    //else
+                    //{
+                    //    movement -= new Vector3(0f, 0f, collision.xOverlap * 0.5f); //z is forward/backward in this case not x
+                    //}
                 }
-                else
-                {
-                    gameObject.GetComp<Model>().SetMaterial(AssetManager.GetMaterial("Mat_CelShading"));
-                }
-                if (collision.yOverlap > 0f && movement.Y != 0f)
+                else if(collision.yOverlap != 0f && movement.Y != 0f)
                 {
                     //BBug.Log("yOverlap: " + collision.yOverlap);
                     gameObject.GetComp<Model>().SetMaterial(AssetManager.GetMaterial("Mat_GreenRubber"));
 
                     movement = new Vector3(0f, 0f, movement.Z);
+                    //if (collision.collisionDir.HasFlag(CollisionDir.Top))
+                    //{
+                    //    movement -= new Vector3(0f, collision.yOverlap, 0f);
+                    //}
+                    //else
+                    //{
+                    //    movement += new Vector3(0f, collision.yOverlap, 0f);
+                    //}
                 }
                 else
                 {
                     gameObject.GetComp<Model>().SetMaterial(AssetManager.GetMaterial("Mat_CelShading"));
                 }
+            }
+            
+            float speed = 50f * GameTime.DeltaTime;
+            if (Input.IsDown(KeyCode.UpArrow))
+            {
+                movement += Vector3.UnitY * speed * 0.5f;
+            }
+            if (Input.IsDown(KeyCode.RightArrow))
+            {
+                movement += Vector3.UnitZ * speed * 0.25f;
+            }
+            if (Input.IsDown(KeyCode.LeftArrow))
+            {
+                movement += -Vector3.UnitZ * speed * 0.25f;
             }
 
             gameObject.transform.Move(movement);

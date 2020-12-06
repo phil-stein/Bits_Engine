@@ -1,9 +1,19 @@
-﻿using System;
+﻿using BitsCore.Debugging;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BeSafe
 {
+    [Flags]
+    public enum CollisionDir : short
+    {
+        None = 0,
+        Left = 1,
+        Right = 2,
+        Top = 4,
+        Bottom = 8,
+    }
     public class Collision
     {
         public float xOverlap = 0f;
@@ -15,6 +25,7 @@ namespace BeSafe
             this.yOverlap = yOverlap;
         }
     }
+
 
     public class RectCollider
     {
@@ -39,39 +50,12 @@ namespace BeSafe
         public static Collision CheckCollision(RectCollider rect_one, RectCollider rect_two)
         {
 
-            //if ((rect_one.yPos >= rect_two.yPos && rect_one.yPos <= rect_two.yPos + rect_two.height) && (rect_one.xPos >= rect_two.xPos && rect_one.xPos <= rect_two.xPos + rect_two.width)) 
-            //{
-            //    if(rect_one.yPos >= rect_two.yPos && rect_one.yPos <= rect_two.yPos + rect_two.height)
-            //    {
-            //        //rect_one colliding rect_two on y
-            //        collision.yOverlap = OneD_LineOverlap(rect_one.yPos, rect_one.yPos + rect_one.height, rect_two.yPos, rect_two.yPos + rect_two.height);
-            //    }
-            //    if(rect_one.xPos >= rect_two.xPos && rect_one.xPos <= rect_two.xPos + rect_two.width)
-            //    {
-            //        //rect_one colliding rect_two on x
-            //        collision.xOverlap = OneD_LineOverlap(rect_one.xPos, rect_one.xPos + rect_one.width, rect_two.xPos, rect_two.xPos + rect_two.width);
-            //    }
-            //}
-            //else if ((rect_two.yPos >= rect_one.yPos && rect_two.yPos <= rect_one.yPos + rect_one.height) && (rect_two.xPos >= rect_one.xPos && rect_two.xPos <= rect_one.xPos + rect_one.width))
-            //{
-            //    if(rect_two.yPos >= rect_one.yPos && rect_two.yPos <= rect_one.yPos + rect_one.height)
-            //    {
-            //        //rect_one colliding rect_two on y
-            //        collision.yOverlap = OneD_LineOverlap(rect_one.yPos, rect_one.yPos + rect_one.height, rect_two.yPos, rect_two.yPos + rect_two.height);
-            //    }
-            //    if(rect_two.xPos >= rect_one.xPos && rect_two.xPos <= rect_one.xPos + rect_one.width)
-            //    {
-            //        //rect_one colliding rect_two on x
-            //        collision.xOverlap = OneD_LineOverlap(rect_one.xPos, rect_one.xPos + rect_one.width, rect_two.xPos, rect_two.xPos + rect_two.width);
-            //    }
-            //}
-
-            if(OneD_LineOverlap(rect_one.xPos, rect_one.xPos + rect_one.width, rect_two.xPos, rect_two.xPos + rect_two.width) > 0f && OneD_LineOverlap(rect_one.yPos, rect_one.yPos + rect_one.height, rect_two.yPos, rect_two.yPos + rect_two.height) > 0f)
+            if (OneD_LineOverlap(rect_one.xPos, rect_one.xPos + rect_one.width, rect_two.xPos, rect_two.xPos + rect_two.width) > 0f && OneD_LineOverlap(rect_one.yPos, rect_one.yPos + rect_one.height, rect_two.yPos, rect_two.yPos + rect_two.height) > 0f)
             {
                 return new Collision(
-                     OneD_LineOverlap(rect_one.yPos, rect_one.yPos + rect_one.height, rect_two.yPos, rect_two.yPos + rect_two.height),
-                     OneD_LineOverlap(rect_one.xPos, rect_one.xPos - rect_one.width, rect_two.xPos, rect_two.xPos + rect_two.width)
-                     );
+                     OneD_LineOverlap(rect_one.xPos, rect_one.xPos + rect_one.width, rect_two.xPos, rect_two.xPos + rect_two.width),
+                     OneD_LineOverlap(rect_one.yPos, rect_one.yPos + rect_one.height, rect_two.yPos, rect_two.yPos + rect_two.height)
+                     ); ;
                 
             }
             return new Collision(0f, 0f);
