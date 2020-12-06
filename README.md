@@ -3,6 +3,14 @@ OpenGL &amp; C# Game-Engine for Windows
 
 <img src="https://github.com/phil-stein/Bits_Engine/blob/main/Bits_Engine/Bits_Engine-Logo_v08_512px.png" alt="logo" width="100">
 
+### Libraries used
+|[GLFW.NET](https://github.com/ForeverZer0/glfw-net)|[DevILSharp](https://www.nuget.org/packages/DevILSharp/)|[SharpFont](https://github.com/Robmaister/SharpFont)| [FastNoise Lite](https://github.com/Auburn/FastNoise)|
+|---|---|---|---|
+
+### Caveats
+Isn't ready yet :)
+Slower that a C / C++ Engine would likely be. 
+
 ## Table Of Contents
 1. [Description / Premise](https://github.com/phil-stein/Bits_Engine#description--premise)
 2. [...](https://github.com/phil-stein/Bits_Engine#)
