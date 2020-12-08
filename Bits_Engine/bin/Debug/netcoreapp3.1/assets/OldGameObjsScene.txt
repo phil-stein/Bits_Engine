@@ -1,0 +1,164 @@
+                /*
+                //Cubes Color & Gradient & Rotation
+                GameObject.CreatePrimitive(GameObject.Primitve.CubeColor, new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f)),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, 2f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), 1f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, 4f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), .75f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, 6f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), .5f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, 8f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), .25f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, -2f), new Vector3(45f, 0f, 0f), new Vector3(1f, 1f, 1f)),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, -4f), new Vector3(0f, 45f, 0f), new Vector3(1f, 1f, 1f)),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, -6f), new Vector3(0f, 0f, 45f), new Vector3(1f, 1f, 1f)),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, -8f), new Vector3(45f, 45f, 45f), new Vector3(1f, 1f, 1f)),
+                //Scaled-Cubes
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(4f, 0f, 2f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f)*2, 1f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(6f, 0f, 4f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f)*3, .75f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(8f, 0f, 6f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f)*4, .5f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(10f, 0f, 8f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f)*5, .25f),
+                //Pyramids Color & Gradient & Rotation
+                GameObject.CreatePrimitive(GameObject.Primitve.PyramidColor, new Vector3(-2f, -0.5f, 0f), new Vector3(-90f, 0f, 0f), new Vector3(1f, 1f, 1f)),
+                GameObject.CreatePrimitive(GameObject.Primitve.Pyramid, new Vector3(-2f, -0.5f, 2f), new Vector3(-90f, 0f, 0f), new Vector3(1f, 1f, 1f), 1f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Pyramid, new Vector3(-2f, -0.5f, 4f), new Vector3(-90f, 0f, 0f), new Vector3(1f, 1f, 1f), .75f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Pyramid, new Vector3(-2f, -0.5f, 6f), new Vector3(-90f, 0f, 0f), new Vector3(1f, 1f, 1f), .5f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Pyramid, new Vector3(-2f, -0.5f, 8f), new Vector3(-90f, 0f, 0f), new Vector3(1f, 1f, 1f), .25f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Pyramid, new Vector3(-2f, -0.5f, -2f), new Vector3(-90f, 0f, 0f), new Vector3(1f, 1f, 1f), 1f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Pyramid, new Vector3(-2f, -0.5f, -4f), new Vector3(-90f, 0f, 0f), new Vector3(1f, 1f, 1f), .75f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Pyramid, new Vector3(-2f, -0.5f, -6f), new Vector3(-90f, 0f, 0f), new Vector3(1f, 1f, 1f), .5f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Pyramid, new Vector3(-2f, -0.5f, -8f), new Vector3(-90f, 0f, 0f), new Vector3(1f, 1f, 1f), .25f),
+
+
+                //Planes Color & Gradient
+                GameObject.CreatePrimitive(GameObject.Primitve.PlaneColor, new Vector3(-4f, -0.5f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f)),
+                GameObject.CreatePrimitive(GameObject.Primitve.Plane, new Vector3(-4f, -0.5f, 2f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), 1f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Plane, new Vector3(-4f, -0.5f, 4f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), .75f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Plane, new Vector3(-4f, -0.5f, 6f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), .5f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Plane, new Vector3(-4f, -0.5f, 8f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), .25f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Plane, new Vector3(-4f, -0.5f, -2f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), 1f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Plane, new Vector3(-4f, -0.5f, -4f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), .75f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Plane, new Vector3(-4f, -0.5f, -6f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), .5f),
+                GameObject.CreatePrimitive(GameObject.Primitve.Plane, new Vector3(-4f, -0.5f, -8f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), .25f),
+                */
+
+
+                /*
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(2f, 0f, 1f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-2f, 0f, -1f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-2f, 0f, 1f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[3]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(3f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, 3f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(2f, 0f, 4f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-2f, 0f, 2f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-2f, 0f, 3f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(3f, 0f, 4f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(0f, 0f, -4f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[3]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(2f, 0f, -5f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-2f, 0f, -3f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-2f, 0f, -4f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(3f, 0f, -5f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), materials[1]),
+
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-6f, 0f, 0f), new Vector3(0f, 0f, 0f), Vector3.Zero * 1f, materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-8f, 0f, 1f), new Vector3(0f, 0f, 0f), Vector3.Zero * 0.5f, materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-4f, 0f, -1f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f) * 0.75f, materials[3]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-4f, 0f, 1f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f) * 1.5f, materials[1]),
+                GameObject.CreatePrimitive(GameObject.Primitve.Cube, new Vector3(-7f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f) * 0.25f, materials[1]),
+                */
+
+                //in update loop
+            if (false)
+            {
+                //rotate objs
+                //cubes
+                gameObjects[5].transform.Rotate(new Vector3(1f, 0f, 0f));
+                gameObjects[6].transform.Rotate(new Vector3(0f, 1f, 0f));
+                gameObjects[7].transform.Rotate(new Vector3(0f, 0f, 1f));
+                gameObjects[8].transform.Rotate(new Vector3(1f, 1f, 1f));
+                //pyramids
+                gameObjects[18].transform.Rotate(new Vector3(1f, 0f, 0f));
+                gameObjects[19].transform.Rotate(new Vector3(0f, 1f, 0f));
+                gameObjects[20].transform.Rotate(new Vector3(0f, 0f, 1f));
+                gameObjects[21].transform.Rotate(new Vector3(1f, 1f, 1f));
+                //planes
+                gameObjects[27].transform.Rotate(new Vector3(1f, 0f, 0f));
+                gameObjects[28].transform.Rotate(new Vector3(0f, 1f, 0f));
+                gameObjects[29].transform.Rotate(new Vector3(0f, 0f, 1f));
+                gameObjects[30].transform.Rotate(new Vector3(1f, 1f, 1f));
+
+                //moves the light between x: 5f and x: -5f
+                if (lights[0].transform.position.X > 17.5f && lightXPositive) { lightXPositive = false; }
+                else if (lights[0].transform.position.X < -17.5f && !lightXPositive) { lightXPositive = true; }
+                lights[0].transform.Move(new Vector3(lightXPositive ? 0.1f : -0.1f, 0f, 0f));
+
+
+                //moves the light between y: 3f and y: -1f
+                if (lights[0].transform.position.Z > 17.5f && lightYPositive) { lightYPositive = false; }
+                else if (lights[0].transform.position.Z < -17.5f && !lightYPositive) { lightYPositive = true; }
+                lights[0].transform.Move(new Vector3(0f, 0f, lightYPositive ? 0.2f : -0.2f));
+            }
+
+                //cubes
+                GameObject.CreateFromFileAsync(new Vector3(-6f, 0f, -6f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Cubes\cube_bevel01"),
+                GameObject.CreateFromFileAsync(new Vector3(-6f, 0f, -3f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Cubes\cube_bevel02"),
+                GameObject.CreateFromFileAsync(new Vector3(-6f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Cubes\cube_bevel03"),
+
+                //spheres
+                //GameObject.CreateFromFileAsync(new Vector3(0f, 0f, -9f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Spheres\sphere_poles"),
+                GameObject.CreateFromFileAsync(new Vector3(0f, 0f, -6f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Spheres\sphere_subdiv02"),
+                GameObject.CreateFromFileAsync(new Vector3(0f, 0f, -3f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Spheres\sphere_subdiv03"),
+                GameObject.CreateFromFileAsync(new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Spheres\sphere_subdiv04"),
+                
+                //pyramids
+                GameObject.CreateFromFileAsync(new Vector3(3f, 0f, -6f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Pyramids\pyramid"),
+                GameObject.CreateFromFileAsync(new Vector3(3f, 0f, -3f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Pyramids\pyramid_bevel01"),
+                GameObject.CreateFromFileAsync(new Vector3(3f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Pyramids\pyramid_bevel02"),
+
+                //suzannes
+                GameObject.CreateFromFileAsync(new Vector3(-3f, 0f, -6f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Suzannes\suzanne"),
+                GameObject.CreateFromFileAsync(new Vector3(-3f, 0f, -3f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Suzannes\suzanne_subdiv01"),
+                GameObject.CreateFromFileAsync(new Vector3(-3f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Suzannes\suzanne_subdiv02"),
+                
+                //miscelaneous
+                GameObject.CreateFromFileAsync(new Vector3(8f, -1f, 0f), new Vector3(0f, -90f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Misc\utah_teapot"),
+                GameObject.CreateFromFileAsync(new Vector3(12f, -1f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Misc\hero_defense_char"),
+                GameObject.CreateFromFileAsync(new Vector3(16f, -1f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Misc\robot01_HD"),
+                //GameObject.CreateFromFileAsync(new Vector3(7f, -1f, 0f), new Vector3(0f, 0f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Misc\robot01_LD"),
+                GameObject.CreateFromFileAsync(new Vector3(20f, -1f, 0f), new Vector3(0f, 90f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Misc\shotgun01"),
+                GameObject.CreateFromFileAsync(new Vector3(24f, -1f, 0f), new Vector3(0f, 90f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.defaultMat, @"Misc\kriss_vector01"),
+                GameObject.CreateFromFileAsync(new Vector3(28f, -1f, 0f), new Vector3(0f, 90f, 0f), new Vector3(1f, 1f, 1f), MaterialLibrary.topColored, @"Misc\stone_wall01"),
+
+
+                //Terrain
+                //GameObject.CreateGrid(4, 4, new Vector3(-10f, -0.5f, 5f), Vector3.Zero, Vector3.One * 10f),
+                //GameObject.CreateGrid(2, 2, new Vector3(-2.5f, -0.5f, 2.5f), Vector3.Zero, Vector3.One * 5f, MaterialLibrary.defaultMat),
+                //GameObject.CreateGrid(10, 10, new Vector3(-2f, -2f, 2.75f), Vector3.Zero, Vector3.One * 20f, MaterialLibrary.terrain, true, .75f, 0.5f),
+                //GameObject.CreateGrid(50, 50, new Vector3(-2f, -2f, 2.75f), Vector3.Zero, Vector3.One * 20f, MaterialLibrary.terrain, true, .75f, 0.05f),
+                //GameObject.CreateGrid(200, 200, new Vector3(-2f, -2f, 2.75f), Vector3.Zero, Vector3.One * 20f, MaterialLibrary.terrain, true, .5f, 0.02f),
+                //GameObject.CreateGrid(500, 500, new Vector3(0f, -1.75f, 0f), Vector3.Zero, Vector3.One * 20f, MaterialLibrary.terrain, true, .5f, 0.008f),
+                //GameObject.CreateGrid(1000, 1000, new Vector3(0f, -1.75f, 0f), Vector3.Zero, Vector3.One * 20f, MaterialLibrary.terrain, true, .5f, 0.004f),
+                //GameObject.CreateGrid(3000, 3000, new Vector3(0f, -1.75f, 0f), Vector3.Zero, Vector3.One * 20f, MaterialLibrary.terrain, true, .5f, 0.0015f),
+                //GameObject.CreateGrid(1000, 1000, new Vector3(-2f, -3f, 2.75f), Vector3.Zero, Vector3.One * 20f, MaterialLibrary.terrain, true, 1f, 0.002f, 5f, .3f, 1340),
+                
+                //Water                
+                //GameObject.CreateGrid(50, 50, new Vector3(0f, -3.0f, 0f), Vector3.Zero, Vector3.One * 20f, materials[5]),
+
+            gameObjects = new GameObject[] 
+            {
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Cubes\cube_bevel01"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Cubes\cube_bevel02"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Cubes\cube_bevel03"),
+
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Spheres\sphere_subdiv02"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Spheres\sphere_subdiv03"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Spheres\sphere_subdiv04"),
+
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Suzannes\suzanne"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Suzannes\suzanne_subdiv01"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Suzannes\suzanne_subdiv02"),
+
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Misc\hero_defense_char"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Misc\kriss_vector01"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Misc\robot01_HD"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Misc\shotgun01"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Misc\stone_wall01"),
+                Serializer.ReadGameObjectFromFile(DataManager.assetsFilePath, @"\SerializedData\Models\Misc\utah_teapot"),
+            };

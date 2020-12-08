@@ -1,0 +1,40 @@
+﻿------------------------------------------------------------------------
+| Text-Version of the BBug.Log() messages. 
+|
+| Versions: 
+|   Active BitsCore version 0.1 
+|   Active OpenGL version 3.3 
+|   Active GLSL version 3.30 NVIDIA via Cg compiler 
+|
+| Hardware: 
+|   Active GPU Vendor NVIDIA Corporation. 
+|   Active GPU GeForce GTX 1050 Ti/PCIe/SSE2. 
+|   Active CPU Intel64 Family 6 Model 158 Stepping 12, GenuineIntel. 
+|   Total Ram 16,319 Gigabytes. 
+|
+| Time & Date: 
+|   BitsCore Aplication started at 11/29/2020 6:59:36 PM. 
+|   BitsCore Application ran for 7.149868 seconds. 
+|   BitsCore Aplication ended at 11/29/2020 6:59:43 PM. 
+------------------------------------------------------------------------
+
+
+--------Application--------
+
+
+!!! AssetManager already contains this Asset !!!
+!!! AssetManager already contains this Asset !!!
+!!! AssetManager already contains this Asset !!!
+!!! AssetManager already contains this Asset !!!
+[2737.8796 ms] - Elapsed during: Deserialize
+
+
+[3533.342 ms] - Elapsed during: Start
+
+---Start()_Done---
+
+MoveByArrowKeys.OnStart() called
+MoveByArrowKeys.OnStart() called
+MoveByArrowKeys.OnStart() called
+MoveByArrowKeys.OnStart() called
+MoveByArrowKeys.OnStart() called

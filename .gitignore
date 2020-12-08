@@ -1,5 +1,5 @@
-# build folder
-**/bin
+# test-builds
+**/#00_TestBuilds
 
 # vim-files
 *~
