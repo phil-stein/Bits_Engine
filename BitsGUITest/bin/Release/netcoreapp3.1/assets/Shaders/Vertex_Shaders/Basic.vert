@@ -17,7 +17,7 @@
     void main() 
     {
         //don't change the order in the multiplication!
-        gl_Position = projection * view * model * vec4(aPosition.xyz, 1f);
+        gl_Position = projection * view * model * vec4(aPosition.xyz, 1);
         
         TexCoord = aTexCoord;
 

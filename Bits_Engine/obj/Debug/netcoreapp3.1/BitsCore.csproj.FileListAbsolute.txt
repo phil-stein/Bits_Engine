@@ -11,3 +11,16 @@ C:\Users\Lillifee\Documents\Visual Studio 2019\Bits_Engine\Bits_Engine\obj\Debug
 C:\Users\Lillifee\Documents\Visual Studio 2019\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.csproj.CoreCompileInputs.cache
 C:\Users\Lillifee\Documents\Visual Studio 2019\Bits_Engine\Bits_Engine\bin\Debug\netcoreapp3.1\SharpFont.dll
 C:\Users\Lillifee\Documents\Visual Studio 2019\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.csproj.CopyComplete
+C:\Workspace\C#\Bits_Engine\Bits_Engine\bin\Debug\netcoreapp3.1\BitsCore.deps.json
+C:\Workspace\C#\Bits_Engine\Bits_Engine\bin\Debug\netcoreapp3.1\BitsCore.dll
+C:\Workspace\C#\Bits_Engine\Bits_Engine\bin\Debug\netcoreapp3.1\BitsCore.pdb
+C:\Workspace\C#\Bits_Engine\Bits_Engine\bin\Debug\netcoreapp3.1\SharpFont.dll
+C:\Workspace\C#\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.csprojAssemblyReference.cache
+C:\Workspace\C#\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.external.GLFW.Strings.resources
+C:\Workspace\C#\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.csproj.GenerateResource.cache
+C:\Workspace\C#\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.AssemblyInfoInputs.cache
+C:\Workspace\C#\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.AssemblyInfo.cs
+C:\Workspace\C#\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.csproj.CoreCompileInputs.cache
+C:\Workspace\C#\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.csproj.CopyComplete
+C:\Workspace\C#\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.dll
+C:\Workspace\C#\Bits_Engine\Bits_Engine\obj\Debug\netcoreapp3.1\BitsCore.pdb

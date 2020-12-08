@@ -297,11 +297,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lillifee\\Documents\\Visual Studio 2019\\Bits_Engine\\TestEnvironment\\TestEnvironment.csproj",
+      "projectUniqueName": "C:\\Workspace\\C#\\Bits_Engine\\TestEnvironment\\TestEnvironment.csproj",
       "projectName": "TestEnvironment",
-      "projectPath": "C:\\Users\\Lillifee\\Documents\\Visual Studio 2019\\Bits_Engine\\TestEnvironment\\TestEnvironment.csproj",
+      "projectPath": "C:\\Workspace\\C#\\Bits_Engine\\TestEnvironment\\TestEnvironment.csproj",
       "packagesPath": "C:\\Users\\Lillifee\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lillifee\\Documents\\Visual Studio 2019\\Bits_Engine\\TestEnvironment\\obj\\",
+      "outputPath": "C:\\Workspace\\C#\\Bits_Engine\\TestEnvironment\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -320,8 +320,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Lillifee\\Documents\\Visual Studio 2019\\Bits_Engine\\Bits_Engine\\BitsCore.csproj": {
-              "projectPath": "C:\\Users\\Lillifee\\Documents\\Visual Studio 2019\\Bits_Engine\\Bits_Engine\\BitsCore.csproj"
+            "C:\\Workspace\\C#\\Bits_Engine\\Bits_Engine\\BitsCore.csproj": {
+              "projectPath": "C:\\Workspace\\C#\\Bits_Engine\\Bits_Engine\\BitsCore.csproj"
             }
           }
         }

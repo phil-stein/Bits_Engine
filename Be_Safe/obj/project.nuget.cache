@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gn2zEwteu29jfRzluDdu+H7ZOBRDMaXmc9TJxYNDo50v98AAcuCFCoKKE1QR3GNWJ981ET3fZu7+Lwam0V1cag==",
+  "dgSpecHash": "ocGBEBlY9kjwUdIL2hZschZ04pNZ6PpYuGYg7ouK+uf3jLXKgLEHmFlb8C9vgl+NSnHPct3pqygo3OGYBGlXRw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lillifee\\Documents\\Visual Studio 2019\\Bits_Engine\\Be_Safe\\Be_Safe.csproj",
+  "projectFilePath": "C:\\Workspace\\C#\\Bits_Engine\\Be_Safe\\Be_Safe.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lillifee\\.nuget\\packages\\devilsharp\\0.2.9\\devilsharp.0.2.9.nupkg.sha512",
     "C:\\Users\\Lillifee\\.nuget\\packages\\fsharp.core\\4.6.2\\fsharp.core.4.6.2.nupkg.sha512",

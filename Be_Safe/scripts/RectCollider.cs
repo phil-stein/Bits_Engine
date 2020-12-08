@@ -1,4 +1,5 @@
-﻿using BitsCore.Debugging;
+﻿/*
+using BitsCore.Debugging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,11 +19,13 @@ namespace BeSafe
     {
         public float xOverlap = 0f;
         public float yOverlap = 0f;
+        public CollisionDir direction;
 
-        public Collision(float xOverlap, float yOverlap)
+        public Collision(float xOverlap, float yOverlap, CollisionDir collisionDir)
         {
             this.xOverlap = xOverlap;
             this.yOverlap = yOverlap;
+            this.direction = collisionDir;
         }
     }
 
@@ -50,15 +53,44 @@ namespace BeSafe
         public static Collision CheckCollision(RectCollider rect_one, RectCollider rect_two)
         {
 
+            CollisionDir collisionDir = CollisionDir.None;
+            if ((rect_one.yPos >= rect_two.yPos && rect_one.yPos <= rect_two.yPos + rect_two.height) && (rect_one.xPos >= rect_two.xPos && rect_one.xPos <= rect_two.xPos + rect_two.width))
+            {
+                if (rect_one.yPos >= rect_two.yPos && rect_one.yPos <= (rect_two.yPos + rect_two.height))
+                {
+                    //rect_one colliding rect_two on y
+                    collisionDir |= CollisionDir.Bottom;
+                }
+                if (rect_one.xPos >= rect_two.xPos && rect_one.xPos <= (rect_two.xPos + rect_two.width))
+                {
+                    //rect_one colliding rect_two on x
+                    collisionDir |= CollisionDir.Left;
+                }
+            }
+            else if ((rect_two.yPos >= rect_one.yPos && rect_two.yPos <= rect_one.yPos + rect_one.height) && (rect_two.xPos >= rect_one.xPos && rect_two.xPos <= rect_one.xPos + rect_one.width))
+            {
+                if (rect_two.yPos >= rect_one.yPos && rect_two.yPos <= (rect_one.yPos + rect_one.height))
+                {
+                    //rect_one colliding rect_two on y
+                    collisionDir |= CollisionDir.Top;
+                }
+                if (rect_two.xPos >= rect_one.xPos && rect_two.xPos <= (rect_one.xPos + rect_one.width))
+                {
+                    //rect_one colliding rect_two on x
+                    collisionDir |= CollisionDir.Right;
+                }
+            }
+
             if (OneD_LineOverlap(rect_one.xPos, rect_one.xPos + rect_one.width, rect_two.xPos, rect_two.xPos + rect_two.width) > 0f && OneD_LineOverlap(rect_one.yPos, rect_one.yPos + rect_one.height, rect_two.yPos, rect_two.yPos + rect_two.height) > 0f)
             {
                 return new Collision(
                      OneD_LineOverlap(rect_one.xPos, rect_one.xPos + rect_one.width, rect_two.xPos, rect_two.xPos + rect_two.width),
-                     OneD_LineOverlap(rect_one.yPos, rect_one.yPos + rect_one.height, rect_two.yPos, rect_two.yPos + rect_two.height)
+                     OneD_LineOverlap(rect_one.yPos, rect_one.yPos + rect_one.height, rect_two.yPos, rect_two.yPos + rect_two.height),
+                     collisionDir
                      ); ;
                 
             }
-            return new Collision(0f, 0f);
+            return new Collision(0f, 0f, CollisionDir.None);
         }
 
         /// <summary>
@@ -72,3 +104,4 @@ namespace BeSafe
 
     }
 }
+*/

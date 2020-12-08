@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EM0uJqZqXQAzp9rcF9tUlqWtAu1eh8+SEOK6yIStrpSuk5AfMV4CDQAMMr9pRFWmyr5GE/2F0TckRyV0b4TaCA==",
+  "dgSpecHash": "YWimkzCvhDZdRf4D4yQR4BS8fPHzJmURYhDJaXSSCFaS8IohGSv6FRA30oLJU3i68iCWT5YSfBAMXSF31gsgJA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lillifee\\Documents\\Visual Studio 2019\\Bits_Engine\\TestEnvironment\\TestEnvironment.csproj",
+  "projectFilePath": "C:\\Workspace\\C#\\Bits_Engine\\TestEnvironment\\TestEnvironment.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lillifee\\.nuget\\packages\\devilsharp\\0.2.9\\devilsharp.0.2.9.nupkg.sha512",
     "C:\\Users\\Lillifee\\.nuget\\packages\\fsharp.core\\4.6.2\\fsharp.core.4.6.2.nupkg.sha512",

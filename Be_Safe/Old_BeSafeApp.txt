@@ -13,6 +13,7 @@ using BitsCore.Rendering.Layers;
 using BitsCore.Debugging;
 using BitsCore;
 using BitsCore.InputSystem;
+using BeSafe.Scripts;
 
 namespace BeSafe
 {
@@ -25,6 +26,8 @@ namespace BeSafe
         int curFps;
         float fpsT;
         int fpsTicksCounterUpdate = 0;
+
+        public List<RectCollider> environCollider = new List<RectCollider>(); //used by PlayerController
 
         /// <summary> Generates an Instance of the derived Application class. </summary>
         public BeSafeApp(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle, bool initialMaximizeWindow = false) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle, initialMaximizeWindow)
@@ -51,21 +54,23 @@ namespace BeSafe
 
             gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "Cel_Crate01"));
 
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(1.5f, 0f, 0f), Vector3.UnitY * -90f, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "Coffe_Store"));
+            environCollider.Add(new RectCollider(-10, -10, 20, 10));
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(1.5f, 0f, 0f), Vector3.UnitY * -90f, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "Ground"));
+            environCollider.Add(new RectCollider(2, 0, 8, 4));
 
-            for(int column = 10; column > 0; column--)
-            {
-                for(int row = 10; row > 0; row--)
-                {
-                    gameObjects.Add(GameObject.CreateFromFile(new Vector3(column *5 - 25, 0f, row *5 - 25), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Cel_Tile"), "tile01"));
-                }
-            }
-
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 0f, -6f), Vector3.UnitY * 180f, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "robot01_LD"));
-            //gameObjects[gameObjects.Count - 1].AddComp(new PlayerController(1, 2)); //add script-comp
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 8f, -6f), Vector3.UnitY * 180f, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "robot01_LD"));
+            gameObjects[gameObjects.Count - 1].AddComp(new PlayerController(1, 2)); //add script-comp
 
             BBug.StartTimer("Lights creation");
             gameObjects.Add(GameObject.CreateDirectionalLight(new Vector3(0.5f, 4f, 0f), new Vector3(20f, -30f, 0f), Vector3.One, AssetManager.GetMaterial("Mat_DefaultLight"), new Vector3(1.0f, 1.0f, 1.0f), 0.5f)); //0.5f
             BBug.StopTimer();
+
+            foreach(RectCollider rect in environCollider)
+            {
+                gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, rect.yPos + (rect.height * 0.5f), rect.xPos + (rect.width * 0.5f)), Vector3.Zero, new Vector3(0.1f, rect.height * 0.5f, rect.width * 0.5f), AssetManager.GetMaterial("Mat_DefaultLight"), "cube"));
+                gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, rect.yPos, rect.xPos), Vector3.Zero, new Vector3(0.25f, 0.25f, 0.25f), AssetManager.GetMaterial("Mat_Default"), "cube"));
+            }
 
             BBug.StopTimer();
             #endregion
@@ -113,6 +118,31 @@ namespace BeSafe
             BBug.StopTimer();
             BBug.Log("\n---Start()_Done---\n");
 
+            #region COLLISION_TESTING
+            BBug.Log("---Line-Overlap-Test---\n");
+
+            BBug.Log("startOne: 0, endOne: 100, startTwo: 20, endTwo: 40");
+            BBug.Log("  -> " + RectCollider.OneD_LineOverlap(0, 100, 20, 40) + "\n");
+
+            BBug.Log("startOne: 0, endOne: 10, startTwo: 20, endTwo: 30");
+            BBug.Log("  -> " + RectCollider.OneD_LineOverlap(0, 10, 20, 30) + "\n");
+
+            BBug.Log("startOne: 30, endOne: 100, startTwo: 20, endTwo: 40");
+            BBug.Log("  -> " + RectCollider.OneD_LineOverlap(30, 100, 20, 40) + "\n");
+
+            BBug.Log("---Line-Overlap-Test_Done---\n");
+
+
+            BBug.Log("---Rect-Overlap-Test---\n");
+
+            RectCollider rect_one = new RectCollider(0,     0,      10,     10);
+            RectCollider rect_two = new RectCollider(-10f,  -10f,   20,     20);
+            BBug.Log("Rect Collision: ");
+            Collision collision = RectCollider.CheckCollision(rect_one, rect_two);
+            BBug.Log("  -> X: " + collision.xOverlap + ", Y: " + collision.yOverlap);
+
+            BBug.Log("\n---Rect-Overlap-Test_Done---\n");
+            #endregion
         }
 
         protected override void Update()
@@ -306,19 +336,6 @@ namespace BeSafe
                     new LightLevelSettings(0.0f, 0.15f, 0.1f, new Vector3(1.2f, 1.0f, 3.0f)),
                     new LightLevelSettings(0.15f, 0.5f, 0.5f, new Vector3(1.2f, 1.0f, 1.5f)),
                     new LightLevelSettings(0.5f, 2.0f, 0.8f, new Vector3(1.2f, 1.0f, 1.2f)),
-                    //new LightLevelSettings(0.0f, 2.0f, 1.0f),
-                },
-                1f));
-
-            //cell shading / style experimentation
-            AssetManager.AddMaterial("Mat_Cel_Tile", new TexturedCelShadingMaterial(
-                AssetManager.GetShader("Shader_TexturedCel"),
-                AssetManager.GetTexture("Tile01"), AssetManager.GetTexture("blank"), //cel_crate01_dif
-                new LightLevelSettings[]
-                {
-                    new LightLevelSettings(0.0f, 0.15f, 0.1f),
-                    new LightLevelSettings(0.15f, 0.5f, 0.5f),
-                    new LightLevelSettings(0.5f, 2.0f, 0.8f),
                     //new LightLevelSettings(0.0f, 2.0f, 1.0f),
                 },
                 1f));

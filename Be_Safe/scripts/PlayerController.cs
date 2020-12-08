@@ -1,4 +1,5 @@
-﻿using BitsCore;
+﻿/*
+using BitsCore;
 using BitsCore.Debugging;
 using BitsCore.InputSystem;
 using BitsCore.ObjectData.Components;
@@ -21,8 +22,6 @@ namespace BeSafe.Scripts
 
         public override void OnStart()
         {
-            BBug.Log("PlayerController.OnStart() called");
-
             playerRect = new RectCollider(gameObject.transform.position.Z, gameObject.transform.position.Y, width, height); //z is forward/backward in this case not x
         }
 
@@ -56,12 +55,20 @@ namespace BeSafe.Scripts
                 playerRect.yPos = gameObject.transform.position.Y;
                 collision = RectCollider.CheckCollision(playerRect, rect);
 
-                BBug.Log("xOverlap: " + collision.xOverlap);
                 if (collision.xOverlap > 0f && movement.Z != 0f)
                 {
+                    BBug.Log("xOverlap: " + collision.xOverlap + ", Collision Dir: " + collision.direction);
                     gameObject.GetComp<Model>().SetMaterial(AssetManager.GetMaterial("Mat_GreenRubber"));
+                
+                    if(collision.direction.HasFlag(CollisionDir.Right))
+                    {
+                        movement = new Vector3(0f, movement.Y, movement.Z - collision.xOverlap);
+                    }
+                    else if (collision.direction.HasFlag(CollisionDir.Left))
+                    {
+                        movement = new Vector3(0f, movement.Y, movement.Z + collision.xOverlap);
+                    }
 
-                    movement = new Vector3(0f, movement.Y, 0f);
                 }
                 else
                 {
@@ -72,7 +79,16 @@ namespace BeSafe.Scripts
                     //BBug.Log("yOverlap: " + collision.yOverlap);
                     gameObject.GetComp<Model>().SetMaterial(AssetManager.GetMaterial("Mat_GreenRubber"));
 
-                    movement = new Vector3(0f, 0f, movement.Z);
+                    //movement = new Vector3(0f, 0f, movement.Z);
+
+                    if (collision.direction.HasFlag(CollisionDir.Bottom) && movement.Y < 0f)
+                    {
+                        movement = new Vector3(0f, 0f, movement.Z);
+                    }
+                    else if (collision.direction.HasFlag(CollisionDir.Top) && movement.Y > 0f)
+                    {
+                        movement = new Vector3(0f, 0f, movement.Z);
+                    }
                 }
                 else
                 {
@@ -85,3 +101,4 @@ namespace BeSafe.Scripts
 
     }
 }
+*/
