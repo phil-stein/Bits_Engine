@@ -13,6 +13,7 @@ using BitsCore.Rendering.Layers;
 using BitsCore.Debugging;
 using BitsCore;
 using BitsCore.InputSystem;
+using BeSafe.Scripts;
 
 namespace BeSafe
 {
@@ -25,6 +26,12 @@ namespace BeSafe
         int curFps;
         float fpsT;
         int fpsTicksCounterUpdate = 0;
+
+        internal int curSelectedTile = 0;
+        internal int selecRingIndex = 0;
+        internal int tileColumns = 8;
+        internal int tileRows = 5;
+        internal int tileDist = 5;
 
         /// <summary> Generates an Instance of the derived Application class. </summary>
         public BeSafeApp(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle, bool initialMaximizeWindow = false) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle, initialMaximizeWindow)
@@ -51,12 +58,15 @@ namespace BeSafe
 
             gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "Cel_Crate01"));
 
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_DefaultLight"), "selection_ring"));
+            gameObjects[gameObjects.Count - 1].AddComp(new SelecRingBehaviour()); //add script-comp
+            selecRingIndex = gameObjects.Count - 1;
 
-            for(int column = 10; column > 0; column--)
+            for(int column = tileColumns; column > 0; column--)
             {
-                for(int row = 10; row > 0; row--)
+                for(int row = tileRows; row > 0; row--)
                 {
-                    gameObjects.Add(GameObject.CreateFromFile(new Vector3(column *5 - 25, 0f, row *5 - 25), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Cel_Tile"), "tile01"));
+                    gameObjects.Add(GameObject.CreateFromFile(new Vector3((column -1) *tileDist, 0f, (row -1) *tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Cel_Tile"), "tile01"));
                 }
             }
 
@@ -156,10 +166,10 @@ namespace BeSafe
             #region INPUT
             //Input------------------------------------------------------------------------------------------------------------------------------------            
             //cam movement
-            if (!paused) { Renderer.mainCam.MoveByInput(); }
+            //if (!paused) { Renderer.mainCam.MoveByInput(); }
 
             //'enter' or 'F5' closes window
-            if (Input.IsPressed(KeyCode.Enter) || Input.IsPressed(KeyCode.F5))
+            if (Input.IsPressed(KeyCode.F5))
             {
                 DisplayManager.CloseWindow();
             }
@@ -247,6 +257,73 @@ namespace BeSafe
             mainLayerUI.SetText("FPS", "FPS: " + curFps);
             mainLayerUI.SetText("DISCL", "Mode: " + (titleDiscalimer == "" ? " - Default" : titleDiscalimer));
             #endregion
+
+            #region GLOBAL_LOGIC
+
+            //move cam
+            float camSpeed = 15f * GameTime.DeltaTime;
+            if (Input.IsDown(KeyCode.W))
+            {
+                Renderer.mainCam.transform.Move(camSpeed, 0f, 0f);
+            }
+            if (Input.IsDown(KeyCode.S))
+            {
+                Renderer.mainCam.transform.Move(-camSpeed, 0f, 0f);
+            }
+            if (Input.IsDown(KeyCode.A))
+            {
+                Renderer.mainCam.transform.Move(0f, 0f, -camSpeed);
+            }
+            if (Input.IsDown(KeyCode.D))
+            {
+                Renderer.mainCam.transform.Move(0f, 0f, camSpeed);
+            }
+            if (Input.IsDown(KeyCode.Q))
+            {
+                Renderer.mainCam.transform.Move(0f, -camSpeed * 0.33f, 0f);
+            }
+            if (Input.IsDown(KeyCode.E))
+            {
+                Renderer.mainCam.transform.Move(0f, camSpeed * 0.33f, 0f);
+            }
+
+            //move cur selected tile ring
+            if (Input.IsPressed(KeyCode.LeftArrow))
+            {
+                curSelectedTile--;
+                curSelectedTile = curSelectedTile < 0 ? 0 : curSelectedTile;
+                BBug.Log("Cur. Selected Tile: " + curSelectedTile);
+            }
+            if (Input.IsPressed(KeyCode.RightArrow))
+            {
+                curSelectedTile++;
+                curSelectedTile = curSelectedTile > tileRows * tileColumns -1 ? tileRows*tileColumns -1: curSelectedTile;
+                BBug.Log("Cur. Selected Tile: " + curSelectedTile);
+            }
+            if (Input.IsPressed(KeyCode.UpArrow))
+            {
+                curSelectedTile += tileRows;
+                curSelectedTile = curSelectedTile > tileRows * tileColumns - 1 ? curSelectedTile-tileRows : curSelectedTile;
+                BBug.Log("Cur. Selected Tile: " + curSelectedTile);
+            }
+            if (Input.IsPressed(KeyCode.DownArrow))
+            {
+                curSelectedTile -= tileRows;
+                curSelectedTile = curSelectedTile < 0 ? curSelectedTile+tileRows : curSelectedTile;
+                BBug.Log("Cur. Selected Tile: " + curSelectedTile);
+            }
+
+            //inst buildings
+            if (Input.IsPressed(KeyCode.Enter))
+            {
+                //TODO: replace with GameObject.Instantiate()
+                GetCurTilePos(out int xPos, out int zPos);
+                mainLayer3D.gameObjects.Add(GameObject.CreateFromFile(new Vector3(xPos, 0f, zPos), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Default"), "building_hut"));
+                Renderer.SetupAssets();
+            }
+
+
+            #endregion
         }
 
         private void LoadMaterials()
@@ -322,6 +399,12 @@ namespace BeSafe
                     //new LightLevelSettings(0.0f, 2.0f, 1.0f),
                 },
                 1f));
+        }
+
+        public void GetCurTilePos(out int xPos, out int zPos)
+        {
+            xPos = ((curSelectedTile / tileRows) % tileColumns) * tileDist;
+            zPos = (curSelectedTile % tileRows) * tileDist;
         }
     }
 

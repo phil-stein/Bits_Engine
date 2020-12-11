@@ -122,6 +122,11 @@ namespace BitsCore.ObjectData.Components
                 position += deltaPos;
             }
         }
+        /// <summary> Moves the Transforms position by the given x, y, z values. </summary>
+        public void Move(float x, float y, float z)
+        {
+            position += new Vector3(x, y, z);
+        }
 
         /// <summary> Rotates the Transform by a Vector. </summary>
         /// <param name="deltaRot"> The direction the Rotated is supposed to be Rotated by. </param>

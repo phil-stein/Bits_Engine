@@ -12,14 +12,17 @@ namespace BitsCore.ObjectData.Components
     {
         /// <summary> The GameObject the Component is attached to. </summary>
         public GameObject gameObject { get; protected set; }
-        
+
         /// <summary> The byte that identifies this component in de-/serialization. </summary>
         public byte ID { get; protected set; }
+
+
 
         /// <summary> Generates a Component attached to gameObject. </summary>
         public Component()
         {
             this.ID = GetCompID(this.GetType());
+            
         }
 
         /// <summary> 
