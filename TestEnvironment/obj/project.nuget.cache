@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "KC6aPscdvdtxGcWlZ6m7/5kdp5pAZIyjY/kznfx0wHxHlKhxuYBA8/+VdXVFXxVTnM/vkchg0f6FAk6YIoywEw==",
+  "dgSpecHash": "YWimkzCvhDZdRf4D4yQR4BS8fPHzJmURYhDJaXSSCFaS8IohGSv6FRA30oLJU3i68iCWT5YSfBAMXSF31gsgJA==",
   "success": true,
   "projectFilePath": "C:\\Workspace\\C#\\Bits_Engine\\TestEnvironment\\TestEnvironment.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\phili\\.nuget\\packages\\devilsharp\\0.2.9\\devilsharp.0.2.9.nupkg.sha512",
-    "C:\\Users\\phili\\.nuget\\packages\\fsharp.core\\4.6.2\\fsharp.core.4.6.2.nupkg.sha512",
-    "C:\\Users\\phili\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
-    "C:\\Users\\phili\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
-    "C:\\Users\\phili\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512"
+    "C:\\Users\\Lillifee\\.nuget\\packages\\devilsharp\\0.2.9\\devilsharp.0.2.9.nupkg.sha512",
+    "C:\\Users\\Lillifee\\.nuget\\packages\\fsharp.core\\4.6.2\\fsharp.core.4.6.2.nupkg.sha512",
+    "C:\\Users\\Lillifee\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Lillifee\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\Lillifee\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

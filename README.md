@@ -8,8 +8,9 @@ OpenGL &amp; C# Game-Engine for Windows
 |---|---|---|---|---|---|---|
 
 ### Caveats
-Isn't ready yet :)
-Slower that a C / C++ Engine would likely be. 
+Isn't ready yet :) <br>
+Slower that a C / C++ Engine would likely be. <br>
+Memory allocation is really bad at the moment. <br>
 
 ## Table Of Contents
 1. [Description / Premise](https://github.com/phil-stein/Bits_Engine#description--premise)
