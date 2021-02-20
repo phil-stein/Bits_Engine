@@ -1,15 +1,15 @@
 ﻿
 Todo:
 	
-	- make/find texture for hero_defense_char
+	- make/find texture for hero_defense_char (color palette texture used in "Hero Defense")
 	
-	- make a map and playe tiles based on that not just a square
-	- make it load based on an image specifying the tiles
-	- make the player be abled to walk the new map
-	- make the collision-system determine collision based on the image with the tile-layout
+	- [x] make a map and player tiles based on that not just a square
+	- [x] make the player be abled to walk the new map
+	- [x] check the player leaving out the left/right side of the map
 	- make it be abled to move between sections
-
-	- rotate char in direction of key-press even if that move if blocked
+	- make it load based on an image specifying the tiles
+	- make the collision-system determine collision based on the image with the tile-layout
+	- [x] make the EnvGen. be abled to have multiple strings/imgs as layers for the map, i.e. grass -> wall
 
 	- make the textured materials have tint-colors for the albedo and specular maps
 
@@ -19,4 +19,10 @@ Todo:
 
 	- add structures/constructs/groups/etc. just a couple of GO's grouped together (prefabs)
 
+	- AssetManager error message when wrong asset-name
+
+Buggs:
+
+	- [x] floor is lit differently than the other objects
+	- rotate char in direction of key-press even if that move if blocked
 

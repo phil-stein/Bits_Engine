@@ -232,32 +232,7 @@ namespace BeSafe
 
             #region GLOBAL_LOGIC
 
-            //move cam
-            float camSpeed = 15f * GameTime.DeltaTime;
-            if (Input.IsDown(KeyCode.W))
-            {
-                Renderer.mainCam.transform.Move(camSpeed, 0f, 0f);
-            }
-            if (Input.IsDown(KeyCode.S))
-            {
-                Renderer.mainCam.transform.Move(-camSpeed, 0f, 0f);
-            }
-            if (Input.IsDown(KeyCode.A))
-            {
-                Renderer.mainCam.transform.Move(0f, 0f, -camSpeed);
-            }
-            if (Input.IsDown(KeyCode.D))
-            {
-                Renderer.mainCam.transform.Move(0f, 0f, camSpeed);
-            }
-            if (Input.IsDown(KeyCode.Q))
-            {
-                Renderer.mainCam.transform.Move(0f, -camSpeed * 0.33f, 0f);
-            }
-            if (Input.IsDown(KeyCode.E))
-            {
-                Renderer.mainCam.transform.Move(0f, camSpeed * 0.33f, 0f);
-            }
+
 
             //inst buildings
             // if (Input.IsPressed(KeyCode.Enter))
@@ -306,6 +281,9 @@ namespace BeSafe
             AssetManager.AddMaterial("Mat_Default", new TexturedPhongMaterial(
                 AssetManager.GetShader("Shader_Textured"),
                 AssetManager.GetTexture("blank"), AssetManager.GetTexture("blank_dark"), 0.05f));
+            AssetManager.AddMaterial("Mat_Default_Light_Grey", new TexturedPhongMaterial(
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("blank_light_grey"), AssetManager.GetTexture("blank_dark"), 0.05f));
             AssetManager.AddMaterial("Mat_Default_Grey", new TexturedPhongMaterial(
                 AssetManager.GetShader("Shader_Textured"),
                 AssetManager.GetTexture("blank_grey"), AssetManager.GetTexture("blank_dark"), 0.05f));
@@ -331,11 +309,15 @@ namespace BeSafe
 
             AssetManager.AddMaterial("Mat_UV-Checkered", new TexturedPhongMaterial(
                 AssetManager.GetShader("Shader_Textured"),
-                AssetManager.GetTexture("UV_Checkered"), AssetManager.GetTexture("blank"), 1f)); //UV_Checkered
+                AssetManager.GetTexture("UV_Checkered"), AssetManager.GetTexture("blank_black"), 0.1f)); //UV_Checkered
 
             AssetManager.AddMaterial("Mat_Tile", new TexturedPhongMaterial(
                 AssetManager.GetShader("Shader_Textured"),
                 AssetManager.GetTexture("Tile01"), AssetManager.GetTexture("blank_black"), 0.05f)); //UV_Checkered
+
+            AssetManager.AddMaterial("Mat_Crate01", new TexturedPhongMaterial(
+                        AssetManager.GetShader("Shader_Textured"),
+                        AssetManager.GetTexture("crate01_dif"), AssetManager.GetTexture("crate01_spec"), 1f));
 
 
             //cell shading / style experimentation

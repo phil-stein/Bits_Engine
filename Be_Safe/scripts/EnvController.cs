@@ -10,23 +10,70 @@ namespace BeSafe.Scripts
 {
     public static class EnvController
     {
-        public static int tileColumns    = 10;
-        public static int tileRows       = 10;
-        public static int tileDist       = 5;
+        struct Pushable
+        {
+            int tileIndex;
+            GameObject gameObject;
+
+            public Pushable(int tileIndex, GameObject gameObject)
+            {
+                this.tileIndex = tileIndex;
+                this.gameObject = gameObject;
+            }
+        }
+
+        public static int tileRows       = 20;
+        public static int tileColumns    = 15;
+        public static int tileDist       = 4;
         public static int positionIndex  = 0;
 
-        // 'G': Grass; 'W': Water
+        // 'G': Grass; 'W': Water; '|': Wall-Straight; '-': Wall-Sideways; 'C': Corner;
         public const string mapString =
-            "GGGGGGGGGG" +
-            "GGGGGGGGGG" +
-            "GGGGGGGGGG" +
-            "GGGWWWGGGG" +
-            "GGGWWWGGGG" +
-            "GGGGWWGGGG" +
-            "GGGGGGGGGG" +
-            "GGGGGGGGGG" +
-            "GGGGGGGGGG" +
-            "GGGGGGGGGG";
+            "GGGGGGGGGGGGGGG" +
+            "GGGGGGGGGGGGGGG" +
+            "GGGGGGGGGGGWWGG" +
+            "GGGGGGGGGGWWWGG" +
+            "GGGGGGGGGGWWWGG" +
+            "GGGGGGGGGGGGGGG" +
+            "GGGGGGGGGGGGGGG" +
+            "GGC-G---CGGGGGG" +
+            "GG|GGGGG|GGGGGG" +
+            "GG|GGGGG|GGGGGG" +
+            "GG|GGGGG|GGGGGG" +
+            "GG|GGGGG|GGGGGG" +
+            "GG|GGGGG|GGGGGG" +
+            "GGC-G---CGGGGGG" +
+            "GGGGGGGGGGGGGGG" +
+            "GGGGGGGGGGGGGGG" +
+            "GGGGGGGGGGGGGGG" +
+            "GGGWWGGGGGGGGGG" +
+            "GGGWWGGGGGGGGGG" +
+            "GGGGGGGGGGGGGGG";
+        // 'O': Ball
+        public const string propsString =
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXOXCXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX" +
+            "XXXXXXXXXXXXXXX";
+        const float waterHeightDif = 0.25f;
+
+        static List<Pushable> pushables = new List<Pushable>();
 
         public static List<GameObject> GenerateWorld()
         {
@@ -35,32 +82,83 @@ namespace BeSafe.Scripts
             // gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -12f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "sphere_poles")); //sphere
             // gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "Cel_Crate01"));
 
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One * 0.75f, AssetManager.GetMaterial("Mat_Default_Grey"), "hero_defense_char"));
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One * 0.75f, AssetManager.GetMaterial("Mat_Default_Light_Grey"), "hero_defense_char"));
             gameObjects[gameObjects.Count - 1].AddComp(new PlayerController()); //add script-comp
             positionIndex = gameObjects.Count - 1;
 
-            int mapChar = 0;
-            for (int column = tileColumns; column > 0; column--)
+            int tileChar = mapString.Length -1;
+            for (int column = tileRows; column > 0; column--)
             {
-                for (int row = tileRows; row > 0; row--)
+                for (int row = tileColumns; row > 0; row--)
                 {
-                    if(mapString[mapChar] == 'G')
+                    #region TILES
+                    if (mapString[tileChar] == 'G')
                     {
-                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Tile"), "tile01")); // Mat_Cel_Tile
+                        // water to the right
+                        if(tileChar+1 < mapString.Length && mapString[tileChar+1] == 'W')
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_extruded")); }
+                        // water to the left
+                        else if (tileChar - 1 >= 0 && mapString[tileChar - 1] == 'W')
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_extruded")); }
+                        // water above
+                        else if (tileChar + tileColumns < mapString.Length && mapString[tileChar + tileColumns] == 'W')
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_extruded")); }
+                        // water below
+                        else if (tileChar - tileColumns >= 0 && mapString[tileChar - tileColumns] == 'W')
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_extruded")); }
+                        else 
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_flat")); }
                     }
-                    else if (mapString[mapChar] == 'W')
+                    else if (mapString[tileChar] == 'W')
                     {
-                        // BBug.Log("Placed Water tile");
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f - waterHeightDif, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Default"), "tile_flat"));
                     }
-                    mapChar++;
+                    else if (mapString[tileChar] == '|')
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_sideways"));
+                    }
+                    else if (mapString[tileChar] == '-')
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_straight"));
+                    }
+                    else if (mapString[tileChar] == 'C')
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_corner"));
+                    }
+                    #endregion
+
+                    #region PROPS
+                    if(propsString[tileChar] == 'O')
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One * 1.25f, AssetManager.GetMaterial("Mat_UV-Checkered"), "sphere_subdiv02"));
+                        pushables.Add(new Pushable(tileChar, gameObjects[gameObjects.Count -1])); // add to the tracked pushable-object
+                    }
+                    else if (propsString[tileChar] == 'C')
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Crate01"), "crate01"));
+                        pushables.Add(new Pushable(tileChar, gameObjects[gameObjects.Count - 1])); // add to the tracked pushable-object
+                    }
+                    #endregion
+
+                    tileChar--;
                 }
             }
 
             BBug.StartTimer("Lights creation");
-            gameObjects.Add(GameObject.CreateDirectionalLight(new Vector3(0.5f, 4f, 0f), new Vector3(20f, -30f, 0f), Vector3.One, AssetManager.GetMaterial("Mat_DefaultLight"), new Vector3(1.0f, 1.0f, 1.0f), 0.75f)); //0.5f
+            gameObjects.Add(GameObject.CreateDirectionalLight(new Vector3(0.5f, 4f, 0f), new Vector3(20f, -30f, 0f), Vector3.One, AssetManager.GetMaterial("Mat_DefaultLight"), new Vector3(1.0f, 1.0f, 1.0f), 1.0f)); //0.5f
             BBug.StopTimer();
 
             return gameObjects;
+        }
+
+        public static bool IsWalkableTile(int tileIndex)
+        {
+            // @TODO: check for pushables
+
+            if(tileIndex < 0 || tileIndex >= mapString.Length) { return false; } // out of bounds of the array
+
+            BBug.Log("Attempt to walk on tile: '" + mapString[tileIndex] + "'");
+            return mapString[tileIndex] != 'W' && mapString[tileIndex] != 'C' && mapString[tileIndex] != '|' && mapString[tileIndex] != '-';
         }
     }
 }
