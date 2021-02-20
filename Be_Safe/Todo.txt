@@ -1,4 +1,5 @@
-﻿Todo:
+﻿
+Todo:
 	
 	- make/find texture for hero_defense_char
 	
@@ -12,4 +13,10 @@
 
 	- make the textured materials have tint-colors for the albedo and specular maps
 
+	- make the blank textures, primitives and shaders part of the BitsCore projects asset folder and copy them
+
 	- [prob. obsolete] movement "wraps" when moving out of bound to the left or right
+
+	- add structures/constructs/groups/etc. just a couple of GO's grouped together (prefabs)
+
+

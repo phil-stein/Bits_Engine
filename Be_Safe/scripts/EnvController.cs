@@ -10,10 +10,23 @@ namespace BeSafe.Scripts
 {
     public static class EnvController
     {
-        public static int tileColumns    = 8;
-        public static int tileRows       = 5;
+        public static int tileColumns    = 10;
+        public static int tileRows       = 10;
         public static int tileDist       = 5;
         public static int positionIndex  = 0;
+
+        // 'G': Grass; 'W': Water
+        public const string mapString =
+            "GGGGGGGGGG" +
+            "GGGGGGGGGG" +
+            "GGGGGGGGGG" +
+            "GGGWWWGGGG" +
+            "GGGWWWGGGG" +
+            "GGGGWWGGGG" +
+            "GGGGGGGGGG" +
+            "GGGGGGGGGG" +
+            "GGGGGGGGGG" +
+            "GGGGGGGGGG";
 
         public static List<GameObject> GenerateWorld()
         {
@@ -26,11 +39,20 @@ namespace BeSafe.Scripts
             gameObjects[gameObjects.Count - 1].AddComp(new PlayerController()); //add script-comp
             positionIndex = gameObjects.Count - 1;
 
+            int mapChar = 0;
             for (int column = tileColumns; column > 0; column--)
             {
                 for (int row = tileRows; row > 0; row--)
                 {
-                    gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Tile"), "tile01")); // Mat_Cel_Tile
+                    if(mapString[mapChar] == 'G')
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Tile"), "tile01")); // Mat_Cel_Tile
+                    }
+                    else if (mapString[mapChar] == 'W')
+                    {
+                        // BBug.Log("Placed Water tile");
+                    }
+                    mapChar++;
                 }
             }
 

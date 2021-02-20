@@ -22,6 +22,14 @@ namespace BitsCore.Utils
             return radians * (180 / MathF.PI);
         }
 
+
+        // lerp
+        /// <summary> Linear-Interpolation between the start and end values by the given percentage </summary>
+        static public float Lerp(float start, float end, float percentage)
+        {
+            return start + percentage * (end - start);
+        }
+
         //Vector Matrix-Multiplication
         /// <summary> Multiply a Vector3 with a Matrix4x4. </summary>
         /// <param name="vec"> The vector used for the multiplication. </param>
