@@ -27,12 +27,6 @@ namespace BeSafe
         float fpsT;
         int fpsTicksCounterUpdate = 0;
 
-        internal int curSelectedTile = 0;
-        internal int selecRingIndex = 0;
-        internal int tileColumns = 8;
-        internal int tileRows = 5;
-        internal int tileDist = 5;
-
         /// <summary> Generates an Instance of the derived Application class. </summary>
         public BeSafeApp(int initialWindowWidth, int initialWindowHeight, string initialWindowTitle, bool initialMaximizeWindow = false) : base(initialWindowWidth, initialWindowHeight, initialWindowTitle, initialMaximizeWindow)
         {
@@ -52,32 +46,10 @@ namespace BeSafe
             //asynchrounsly fills the 'gameObjects' array
             //MakeGameObjects().Wait();
             //gameObjects = new GameObject[] { GameObject.CreateGrid(200, 200, new Vector3(-2f, -2f, 2.75f), Vector3.Zero, Vector3.One * 20f, MaterialLibrary.terrain, true, .5f, 0.02f) };
-            List<GameObject> gameObjects = new List<GameObject>();
+            
+            List<GameObject> gameObjects = EnvController.GenerateWorld(); // special class to extract the world controll from the application class
 
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -12f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "sphere_poles")); //sphere
-
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "Cel_Crate01"));
-
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_DefaultLight"), "selection_ring"));
-            gameObjects[gameObjects.Count - 1].AddComp(new SelecRingBehaviour()); //add script-comp
-            selecRingIndex = gameObjects.Count - 1;
-
-            for(int column = tileColumns; column > 0; column--)
-            {
-                for(int row = tileRows; row > 0; row--)
-                {
-                    gameObjects.Add(GameObject.CreateFromFile(new Vector3((column -1) *tileDist, 0f, (row -1) *tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Cel_Tile"), "tile01"));
-                }
-            }
-
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 0f, -6f), Vector3.UnitY * 180f, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "robot01_LD"));
-            //gameObjects[gameObjects.Count - 1].AddComp(new PlayerController(1, 2)); //add script-comp
-
-            BBug.StartTimer("Lights creation");
-            gameObjects.Add(GameObject.CreateDirectionalLight(new Vector3(0.5f, 4f, 0f), new Vector3(20f, -30f, 0f), Vector3.One, AssetManager.GetMaterial("Mat_DefaultLight"), new Vector3(1.0f, 1.0f, 1.0f), 0.5f)); //0.5f
-            BBug.StopTimer();
-
-            BBug.StopTimer();
+            BBug.StopTimer(); // gameobject creation timer
             #endregion
 
             #region RENDERER_AND_LAYERS
@@ -127,12 +99,12 @@ namespace BeSafe
 
         protected override void Update()
         {
-            //reload the shader
-            if (Input.IsPressed(KeyCode.R))
-            {
-                AssetManager.ReloadMaterial("Mat_CelShading");
-                BBug.Log("\nReloaded Cel Shading Material");
-            }
+            // reload the shader
+            // if (Input.IsPressed(KeyCode.R))
+            // {
+            //     AssetManager.ReloadMaterial("Mat_CelShading");
+            //     BBug.Log("\nReloaded Cel Shading Material");
+            // }
 
             #region LIGHT
 
@@ -287,40 +259,14 @@ namespace BeSafe
                 Renderer.mainCam.transform.Move(0f, camSpeed * 0.33f, 0f);
             }
 
-            //move cur selected tile ring
-            if (Input.IsPressed(KeyCode.LeftArrow))
-            {
-                curSelectedTile--;
-                curSelectedTile = curSelectedTile < 0 ? 0 : curSelectedTile;
-                BBug.Log("Cur. Selected Tile: " + curSelectedTile);
-            }
-            if (Input.IsPressed(KeyCode.RightArrow))
-            {
-                curSelectedTile++;
-                curSelectedTile = curSelectedTile > tileRows * tileColumns -1 ? tileRows*tileColumns -1: curSelectedTile;
-                BBug.Log("Cur. Selected Tile: " + curSelectedTile);
-            }
-            if (Input.IsPressed(KeyCode.UpArrow))
-            {
-                curSelectedTile += tileRows;
-                curSelectedTile = curSelectedTile > tileRows * tileColumns - 1 ? curSelectedTile-tileRows : curSelectedTile;
-                BBug.Log("Cur. Selected Tile: " + curSelectedTile);
-            }
-            if (Input.IsPressed(KeyCode.DownArrow))
-            {
-                curSelectedTile -= tileRows;
-                curSelectedTile = curSelectedTile < 0 ? curSelectedTile+tileRows : curSelectedTile;
-                BBug.Log("Cur. Selected Tile: " + curSelectedTile);
-            }
-
             //inst buildings
-            if (Input.IsPressed(KeyCode.Enter))
-            {
-                //TODO: replace with GameObject.Instantiate()
-                GetCurTilePos(out int xPos, out int zPos);
-                mainLayer3D.gameObjects.Add(GameObject.CreateFromFile(new Vector3(xPos, 0f, zPos), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Default"), "building_hut"));
-                Renderer.SetupAssets();
-            }
+            // if (Input.IsPressed(KeyCode.Enter))
+            // {
+            //     //TODO: replace with GameObject.Instantiate()
+            //     GetCurTilePos(out int xPos, out int zPos);
+            //     mainLayer3D.gameObjects.Add(GameObject.CreateFromFile(new Vector3(xPos, 0f, zPos), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Default"), "building_hut"));
+            //     Renderer.SetupAssets();
+            // }
 
 
             #endregion
@@ -357,7 +303,20 @@ namespace BeSafe
             //basic materials
             AssetManager.AddMaterial("Mat_DefaultLight", new UnlitMaterial(AssetManager.GetShader("Shader_BasicBasic"), new Vector3(1.0f, 1.0f, 1.0f))); //basic light
 
-            AssetManager.AddMaterial("Mat_Default", new BasicPhongMaterial(
+            AssetManager.AddMaterial("Mat_Default", new TexturedPhongMaterial(
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("blank"), AssetManager.GetTexture("blank_dark"), 0.05f));
+            AssetManager.AddMaterial("Mat_Default_Grey", new TexturedPhongMaterial(
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("blank_grey"), AssetManager.GetTexture("blank_dark"), 0.05f));
+            AssetManager.AddMaterial("Mat_Default_Dark", new TexturedPhongMaterial(
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("blank_dark"), AssetManager.GetTexture("blank_dark"), 0.05f));
+            AssetManager.AddMaterial("Mat_Default_Black", new TexturedPhongMaterial(
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("blank_black"), AssetManager.GetTexture("blank_dark"), 0.05f));
+
+            AssetManager.AddMaterial("Mat_Default_Old", new BasicPhongMaterial(
                 AssetManager.GetShader("Shader_BasicPhong"),
                 new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0.5f, 0.5f, 0.5f), new Vector3(0.074597f, 0.074597f, 0.074597f), 0.15f)); //base-mat
 
@@ -374,6 +333,11 @@ namespace BeSafe
                 AssetManager.GetShader("Shader_Textured"),
                 AssetManager.GetTexture("UV_Checkered"), AssetManager.GetTexture("blank"), 1f)); //UV_Checkered
 
+            AssetManager.AddMaterial("Mat_Tile", new TexturedPhongMaterial(
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("Tile01"), AssetManager.GetTexture("blank_black"), 0.05f)); //UV_Checkered
+
+
             //cell shading / style experimentation
             AssetManager.AddMaterial("Mat_CelShading", new TexturedCelShadingMaterial(
                 AssetManager.GetShader("Shader_TexturedCel"),
@@ -387,7 +351,6 @@ namespace BeSafe
                 },
                 1f));
 
-            //cell shading / style experimentation
             AssetManager.AddMaterial("Mat_Cel_Tile", new TexturedCelShadingMaterial(
                 AssetManager.GetShader("Shader_TexturedCel"),
                 AssetManager.GetTexture("Tile01"), AssetManager.GetTexture("blank"), //cel_crate01_dif
@@ -399,12 +362,6 @@ namespace BeSafe
                     //new LightLevelSettings(0.0f, 2.0f, 1.0f),
                 },
                 1f));
-        }
-
-        public void GetCurTilePos(out int xPos, out int zPos)
-        {
-            xPos = ((curSelectedTile / tileRows) % tileColumns) * tileDist;
-            zPos = (curSelectedTile % tileRows) * tileDist;
         }
     }
 

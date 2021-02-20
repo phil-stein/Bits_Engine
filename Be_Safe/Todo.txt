@@ -1,0 +1,15 @@
+﻿Todo:
+	
+	- make/find texture for hero_defense_char
+	
+	- make a map and playe tiles based on that not just a square
+	- make it load based on an image specifying the tiles
+	- make the player be abled to walk the new map
+	- make the collision-system determine collision based on the image with the tile-layout
+	- make it be abled to move between sections
+
+	- rotate char in direction of key-press even if that move if blocked
+
+	- make the textured materials have tint-colors for the albedo and specular maps
+
+	- [prob. obsolete] movement "wraps" when moving out of bound to the left or right

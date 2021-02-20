@@ -10,14 +10,11 @@
         "projectUniqueName": "C:\\Workspace\\C#\\Bits_Engine\\Bits_Engine\\BitsCore.csproj",
         "projectName": "BitsCore",
         "projectPath": "C:\\Workspace\\C#\\Bits_Engine\\Bits_Engine\\BitsCore.csproj",
-        "packagesPath": "C:\\Users\\Lillifee\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
         "outputPath": "C:\\Workspace\\C#\\Bits_Engine\\Bits_Engine\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Lillifee\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -65,7 +62,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -75,14 +72,11 @@
         "projectUniqueName": "C:\\Workspace\\C#\\Bits_Engine\\TestEnvironment\\TestEnvironment.csproj",
         "projectName": "TestEnvironment",
         "projectPath": "C:\\Workspace\\C#\\Bits_Engine\\TestEnvironment\\TestEnvironment.csproj",
-        "packagesPath": "C:\\Users\\Lillifee\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\phili\\.nuget\\packages\\",
         "outputPath": "C:\\Workspace\\C#\\Bits_Engine\\TestEnvironment\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Lillifee\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\phili\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -124,7 +118,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

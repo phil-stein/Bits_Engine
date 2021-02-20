@@ -9,7 +9,7 @@ namespace BeSafe
         public static Application app;
         public static void Main(string[] args)
         {
-            app = new BeSafeApp(1280, 720, "BitsCore-Application", false);
+            app = new BeSafeApp(1920, 1080, "BitsCore - Application", true); // 1280, 720 , ... , false
             app.Run();
         }
     }

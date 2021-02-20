@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="scripts\PlayerController.txt" />
+    <None Remove="scripts\RectCollider.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="scripts\old_scripts\PlayerController.txt" />
+    <Compile Include="scripts\old_scripts\RectCollider.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Bits_Engine\BitsCore.csproj" />
   </ItemGroup>
 
