@@ -11,6 +11,8 @@ Todo:
 	- make the collision-system determine collision based on the image with the tile-layout
 	- [x] make the EnvGen. be abled to have multiple strings/imgs as layers for the map, i.e. grass -> wall
 
+	- make a base-class for player and pushables / all other dynamic map-entities
+
 	- make the textured materials have tint-colors for the albedo and specular maps
 
 	- make the blank textures, primitives and shaders part of the BitsCore projects asset folder and copy them

@@ -8,6 +8,7 @@ using BitsCore.ObjectData.Components;
 using GLFW.Game;
 using BitsCore.ObjectData;
 using BitsCore.Rendering;
+using System.Runtime.CompilerServices;
 
 namespace BitsCore.ObjectData.Components
 {
@@ -126,6 +127,26 @@ namespace BitsCore.ObjectData.Components
         public void Move(float x, float y, float z)
         {
             position += new Vector3(x, y, z);
+        }
+        /// <summary> Sets the position attribute of the transform component. </summary>
+        public void SetPos(float x, float y, float z)
+        {
+            position = new Vector3(x, y, z);
+        }
+        /// <summary> Sets the x-value of the position attribute. </summary>
+        public void SetPosX(float x)
+        {
+            position = new Vector3(x, position.Y, position.Z);
+        }
+        /// <summary> Sets the y-value of the position attribute. </summary>
+        public void SetPosY(float y)
+        {
+            position = new Vector3(position.X, y, position.Z);
+        }
+        /// <summary> Sets the z-value of the position attribute. </summary>
+        public void SetPosZ(float z)
+        {
+            position = new Vector3(position.X, position.Y, z);
         }
 
         /// <summary> Rotates the Transform by a Vector. </summary>

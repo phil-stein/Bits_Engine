@@ -10,17 +10,6 @@ namespace BeSafe.Scripts
 {
     public static class EnvController
     {
-        struct Pushable
-        {
-            int tileIndex;
-            GameObject gameObject;
-
-            public Pushable(int tileIndex, GameObject gameObject)
-            {
-                this.tileIndex = tileIndex;
-                this.gameObject = gameObject;
-            }
-        }
 
         public static int tileRows       = 20;
         public static int tileColumns    = 15;
@@ -73,7 +62,7 @@ namespace BeSafe.Scripts
             "XXXXXXXXXXXXXXX";
         const float waterHeightDif = 0.25f;
 
-        static List<Pushable> pushables = new List<Pushable>();
+        static Dictionary<int, GameObject> pushables = new Dictionary<int, GameObject>();
 
         public static List<GameObject> GenerateWorld()
         {
@@ -131,12 +120,12 @@ namespace BeSafe.Scripts
                     if(propsString[tileChar] == 'O')
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One * 1.25f, AssetManager.GetMaterial("Mat_UV-Checkered"), "sphere_subdiv02"));
-                        pushables.Add(new Pushable(tileChar, gameObjects[gameObjects.Count -1])); // add to the tracked pushable-object
+                        pushables.Add(tileChar, gameObjects[gameObjects.Count -1]); // add to the tracked pushable-object
                     }
                     else if (propsString[tileChar] == 'C')
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Crate01"), "crate01"));
-                        pushables.Add(new Pushable(tileChar, gameObjects[gameObjects.Count - 1])); // add to the tracked pushable-object
+                        pushables.Add(tileChar, gameObjects[gameObjects.Count - 1]); // add to the tracked pushable-object
                     }
                     #endregion
 
@@ -151,14 +140,64 @@ namespace BeSafe.Scripts
             return gameObjects;
         }
 
-        public static bool IsWalkableTile(int tileIndex)
+        // @CLEANUP: remove pushable-check into different func as this one should only check walk-ability
+        public static bool IsWalkableTile(int oldTileIndex, int newTileIndex)
         {
+            if(newTileIndex < 0 || newTileIndex >= mapString.Length) { return false; } // out of bounds of the array
+
             // @TODO: check for pushables
+            // use recursion to check the tile the pushable would be pushed
+            if(pushables.ContainsKey(newTileIndex))
+            {
+                // @TODO: the pushables wrap around the sides just like the player did,
+                //        prob. fix this by using a Move() func in the base-class
+                // pushing to the left
+                if(oldTileIndex - newTileIndex == 1)
+                {
+                    IsWalkableTile(newTileIndex, newTileIndex - 1);
+                    TileToPos(newTileIndex - 1, out int xPos, out int zPos);
+                    pushables[newTileIndex].transform.SetPosX(xPos);
+                    pushables[newTileIndex].transform.SetPosZ(zPos);
 
-            if(tileIndex < 0 || tileIndex >= mapString.Length) { return false; } // out of bounds of the array
+                    // @CLEANUP: is there a way to assign/change a key ?
+                    // create a new entry with the updated index as the key and remove the old one
+                    pushables.Add(newTileIndex - 1, pushables[newTileIndex]);
+                    pushables.Remove(newTileIndex);
+                }
+                // pushing to the right
+                if (newTileIndex - oldTileIndex == 1)
+                {
+                    IsWalkableTile(newTileIndex, newTileIndex + 1);
+                    TileToPos(newTileIndex + 1, out int xPos, out int zPos);
+                    pushables[newTileIndex].transform.SetPosX(xPos);
+                    pushables[newTileIndex].transform.SetPosZ(zPos);
 
-            BBug.Log("Attempt to walk on tile: '" + mapString[tileIndex] + "'");
-            return mapString[tileIndex] != 'W' && mapString[tileIndex] != 'C' && mapString[tileIndex] != '|' && mapString[tileIndex] != '-';
+                    // @CLEANUP: is there a way to assign/change a key ?
+                    // create a new entry with the updated index as the key and remove the old one
+                    pushables.Add(newTileIndex + 1, pushables[newTileIndex]);
+                    pushables.Remove(newTileIndex);
+                }
+                // pushing up
+                if (newTileIndex == (oldTileIndex + tileColumns))
+                {
+
+                }
+                // pushing down
+                if (newTileIndex == (oldTileIndex - tileColumns))
+                {
+
+                }
+            }
+
+            // BBug.Log("Attempt to walk on tile: '" + mapString[tileIndex] + "'");
+            return mapString[newTileIndex] != 'W' && mapString[newTileIndex] != 'C' && mapString[newTileIndex] != '|' && mapString[newTileIndex] != '-';
+        }
+
+        // @Cleanup, @Refactor: move this into the base-class for player, pushables, etc.
+        static void TileToPos(int curPos, out int xPos, out int zPos)
+        {
+            xPos = ((curPos / EnvController.tileColumns) % EnvController.tileRows) * EnvController.tileDist;
+            zPos = (curPos % EnvController.tileColumns) * EnvController.tileDist;
         }
     }
 }

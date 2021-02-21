@@ -168,7 +168,7 @@ namespace BeSafe.Scripts
                 return curPosition;
             }
 
-            if(!EnvController.IsWalkableTile(newPos))
+            if(!EnvController.IsWalkableTile(curPosition, newPos))
             {
                 return curPosition;
             }
