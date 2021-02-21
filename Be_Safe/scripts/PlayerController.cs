@@ -8,7 +8,7 @@ using System.Numerics;
 
 namespace BeSafe.Scripts
 {
-    public class PlayerController : ScriptComponent
+    public class PlayerController : TileObject
     {
         // @TODO: somehow put this in the scriptcomponent class
         BeSafeApp app;
@@ -26,11 +26,11 @@ namespace BeSafe.Scripts
         Vector3 playerRot_Right     = new Vector3(0f, 0f, 0f);
         PlayerOrientation playerOrientation = PlayerOrientation.Forward;
         
-        int curPosition = 0;
-        private int xPos; // private as the are only correct directly after a call to UpdateCurTilePos()
-        private int zPos; // private as the are only correct directly after a call to UpdateCurTilePos()
-
         bool editorCamMode = false;
+
+        public PlayerController(int _curPosition) : base(_curPosition)
+        {
+        }
 
         public override void OnStart()
         {
@@ -53,36 +53,27 @@ namespace BeSafe.Scripts
             int pre_curSelectedTile = curPosition;
             if (Input.IsPressed(KeyCode.LeftArrow))
             {
-                curPosition = CheckMove(curPosition -1);
-                curPosition = curPosition < 0 ? 0 : curPosition;
                 playerOrientation = PlayerOrientation.Left;
-                BBug.Log("Cur. Selected Tile: " + curPosition);
+                Move(Direction.Left);
+                app.mainLayerUI.SetText("PLAYER_TILE", "Cur. Tile: " + curPosition.ToString("00"));
             }
             if (Input.IsPressed(KeyCode.RightArrow))
             {
-                curPosition = CheckMove(curPosition +1);
-                curPosition = curPosition > EnvController.tileColumns * EnvController.tileRows - 1 ? EnvController.tileColumns * EnvController.tileRows - 1 : curPosition;
                 playerOrientation = PlayerOrientation.Right;
-                BBug.Log("Cur. Selected Tile: " + curPosition);
+                Move(Direction.Right);
+                app.mainLayerUI.SetText("PLAYER_TILE", "Cur. Tile: " + curPosition.ToString("00"));
             }
             if (Input.IsPressed(KeyCode.UpArrow))
             {
-                curPosition = CheckMove(curPosition + EnvController.tileColumns);
-                curPosition = curPosition > EnvController.tileColumns * EnvController.tileRows - 1 ? curPosition - EnvController.tileColumns : curPosition;
                 playerOrientation = PlayerOrientation.Forward;
-                BBug.Log("Cur. Selected Tile: " + curPosition);
+                Move(Direction.Up);
+                app.mainLayerUI.SetText("PLAYER_TILE", "Cur. Tile: " + curPosition.ToString("00"));
             }
             if (Input.IsPressed(KeyCode.DownArrow))
             {
-                curPosition = CheckMove(curPosition - EnvController.tileColumns);
-                curPosition = curPosition < 0 ? curPosition + EnvController.tileColumns : curPosition;
                 playerOrientation = PlayerOrientation.Backward;
-                BBug.Log("Cur. Selected Tile: " + curPosition);
-            }
-
-            if (curPosition != pre_curSelectedTile) // only move when the char has actually moved
-            {
-                UpdateCurTilePos();
+                Move(Direction.Down);
+                app.mainLayerUI.SetText("PLAYER_TILE", "Cur. Tile: " + curPosition.ToString("00"));
             }
             #endregion
 
@@ -138,12 +129,9 @@ namespace BeSafe.Scripts
         }
 
         /// <summary> Update the placement of the player-char. </summary>
-        public void UpdateCurTilePos()
+        public void UpdatePlayerTilePos()
         {
-            xPos = ((curPosition / EnvController.tileColumns) % EnvController.tileRows) * EnvController.tileDist;
-            zPos = (curPosition % EnvController.tileColumns) * EnvController.tileDist;
-
-            gameObject.transform.position = new Vector3(xPos, 0f, zPos);
+            UpdateCurTilePos(); // sets the position
 
             // set player rotation
             gameObject.transform.rotation = playerOrientation == PlayerOrientation.Forward ? playerRot_Forward :
@@ -152,28 +140,13 @@ namespace BeSafe.Scripts
                                             playerOrientation == PlayerOrientation.Right ? playerRot_Right : Vector3.Zero;
         }
 
-        /// <summary> Check if the new position is out of bounds or a un-walkable tile. </summary>
-        /// <param name="newPos"> The position be checked for walk-ability. </param>
-        int CheckMove(int newPos)
+        public override void Move(Direction dir)
         {
-            // out of bounds ----------------------------------
-            // trying to move to the left
-            if (curPosition > newPos && (curPosition - newPos) == 1 && curPosition % EnvController.tileColumns == 0) 
-            {
-                return curPosition;  
-            }
-            // trying to move to the right
-            if (curPosition < newPos && (newPos - curPosition) == 1 && (curPosition +1) % EnvController.tileColumns == 0) 
-            {
-                return curPosition;
-            }
+            // override as the player also need to rotate in the direction hes moving
+            SetTileIndex(dir);
+            UpdatePlayerTilePos(); // would be UpdateCurTilePos();
 
-            if(!EnvController.IsWalkableTile(curPosition, newPos))
-            {
-                return curPosition;
-            }
-            return newPos;
+            app.mainLayerUI.SetText("PLAYER_POS", "Player X: " + gameObject.transform.position.X.ToString("00") + ", Z: " + gameObject.transform.position.Z.ToString("00"));
         }
-
     }
 }

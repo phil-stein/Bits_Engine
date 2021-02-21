@@ -29,6 +29,9 @@ namespace BitsCore.Rendering
         /// <summary> Renders all objects as a color representing the surfaces uv-coordinats when true. </summary>
         public static bool uvMode = false;
 
+        /// <summary> Counts the amount of drawcalls per frame. </summary>
+        private static int drawCallCount = 0;
+
         //Layers-----------------------------------------
         /// <summary> 
         /// The stack of layers, that get drawn ontop of each other. 
@@ -174,7 +177,7 @@ namespace BitsCore.Rendering
             Matrix4x4 projection;
             Matrix4x4 view;
 
-            int vertsInScene = 0;
+            int vertsInScene  = 0;
             foreach (Layer layer in LayerStack)
             {
                 glClear(GL_DEPTH_BUFFER_BIT); //clears the depth information of the last frame, to render the layers actually ontop of one another
@@ -198,6 +201,8 @@ namespace BitsCore.Rendering
             }
 
             activeApp.mainLayerUI.SetText("VERTS", "Verts in Scene: " + vertsInScene);
+            activeApp.mainLayerUI.SetText("DRAWCALLS", "Drawcalls: " + drawCallCount);
+            drawCallCount = 0; // reset each frame
 
             //swaps the buffers, opengl has two buffers one for being displayed and one for inputing the data being rendered in the 'Render()' loop
             Glfw.SwapBuffers(DisplayManager.Window);
@@ -393,6 +398,7 @@ namespace BitsCore.Rendering
                 }
                 //unbind the vertex-array to re-gain the memory occupied by the prev. bound vertex-array
                 glBindVertexArray(0);
+                drawCallCount++;
             }
 
             return vertsInLayerCount;
@@ -442,6 +448,7 @@ namespace BitsCore.Rendering
                 item.texture.Use();
 
                 glDrawArrays(GL_TRIANGLES, 0, 6);
+                drawCallCount++;
 
             }
             glBindVertexArray(0);

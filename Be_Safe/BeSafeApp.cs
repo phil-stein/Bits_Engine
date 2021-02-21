@@ -85,8 +85,12 @@ namespace BeSafe
             mainLayerUI.AddText("FPS", "Hello, World!", 25f, 40f, 0.75f, Vector3.One);
             mainLayerUI.AddText("DISCL", "Hello, World!", 25f, 75f, 0.5f, Vector3.One);
             mainLayerUI.AddText("VERTS", "Verts in Scene: ", 25f, 110f, 0.5f, Vector3.One);
+            mainLayerUI.AddText("DRAWCALLS", "Drawcalls: XX", 25f, 145f, 0.5f, Vector3.One);
 
-            mainLayerUI.AddText("DEBUG_ONE", "DEBUG: ", 25f, 145f, 0.5f, Vector3.One);
+            mainLayerUI.AddText("DEBUG_ONE", "DEBUG: ", 25f, 180f, 0.5f, Vector3.One);
+            
+            mainLayerUI.AddText("PLAYER_TILE", "Cur. Tile: XX", 1765f, 40f, 0.5f, Vector3.One);
+            mainLayerUI.AddText("PLAYER_POS", "Player X: XX Y: XX", 1700f, 75f, 0.5f, Vector3.One);
 
             Renderer.AddLayer(mainLayerUI);
             #endregion
@@ -310,6 +314,14 @@ namespace BeSafe
             AssetManager.AddMaterial("Mat_UV-Checkered", new TexturedPhongMaterial(
                 AssetManager.GetShader("Shader_Textured"),
                 AssetManager.GetTexture("UV_Checkered"), AssetManager.GetTexture("blank_black"), 0.1f)); //UV_Checkered
+
+            AssetManager.AddMaterial("Mat_Grass01", new TexturedPhongMaterial(
+                        AssetManager.GetShader("Shader_Textured"),
+                        AssetManager.GetTexture("grass01_dif"), AssetManager.GetTexture("grass01_spec"), 1f, 1f, 1f));
+
+            AssetManager.AddMaterial("Mat_Plant01", new TexturedPhongMaterial(
+                        AssetManager.GetShader("Shader_Textured"),
+                        AssetManager.GetTexture("plant01_dif"), AssetManager.GetTexture("plant01_dif"), 1f));
 
             AssetManager.AddMaterial("Mat_Tile", new TexturedPhongMaterial(
                 AssetManager.GetShader("Shader_Textured"),
