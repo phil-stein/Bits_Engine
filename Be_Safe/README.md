@@ -13,50 +13,50 @@ Game-Project I am working on to test out the engines capabilities.
 top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing boxes around. 
 
 
-## Todo:
+## Todo
 	
-### Game:
-	- [ ] make/find texture for hero_defense_char (color palette texture used in "Hero Defense")
+### Game
+- [ ] make/find texture for hero_defense_char (color palette texture used in "Hero Defense")
 
-	- [x] make a .md file for the be_safe page
+- [x] make a .md file for the be_safe page
 	
-	- [x] make a map and player tiles based on that not just a square
-	- [x] make the player be abled to walk the new map
-	- [x] check the player leaving out the left/right side of the map
-	- make it be abled to move between sections
-	- make it load based on an image specifying the tiles
-	- @UNSURE: make the collision-system determine collision based on the image with the tile-layout
-	- [x] make the EnvGen. be abled to have multiple strings/imgs as layers for the map, i.e. grass -> wall -> vines
-	- [ ] make dif. models for each side of a water-facing tile 
-	- [ ] define the structure for tile-layout i.e. GroundType -> Structure -> Deco
+- [x] make a map and player tiles based on that not just a square
+- [x] make the player be abled to walk the new map
+- [x] check the player leaving out the left/right side of the map
+- [ ] make it be abled to move between sections
+- [ ] make it load based on an image specifying the tiles
+- [ ] @UNSURE: make the collision-system determine collision based on the image with the tile-layout
+- [x] make the EnvGen. be abled to have multiple strings/imgs as layers for the map, i.e. grass -> wall -> vines
+- [ ] make dif. models for each side of a water-facing tile 
+- [ ] define the structure for tile-layout i.e. GroundType -> Structure -> Deco
 
-	- [x] make pushables
-	- [x] @REFACTOR: make a base-class for player and pushables / all other dynamic map-entities
-	- [x] make the tile-check based on the type of object, i.e. so that pushable objects can be pushed into the water
-	- [ ] make a button / pressure-plate you can push objects onto 
-	- [ ] make the button / pressure-plate open a door
-	- [ ] @UNSURE: move pushable logic from EnvController to TileObject
+- [x] make pushables
+- [x] @REFACTOR: make a base-class for player and pushables / all other dynamic map-entities
+- [x] make the tile-check based on the type of object, i.e. so that pushable objects can be pushed into the water
+- [ ] make a button / pressure-plate you can push objects onto 
+- [ ] make the button / pressure-plate open a door
+- [ ] @UNSURE: move pushable logic from EnvController to TileObject
 
-	- [x] add seperate text for current-tile [x] / player-pos[x] / draw-calls [x]
+- [x] add seperate text for current-tile [x] / player-pos[x] / draw-calls [x]
 
-### GameDesign:
-	- [ ] find a name
-	- [ ] make basic design concept
-	- [ ] design level using the push mechanics
+### GameDesign
+- [ ] find a name
+- [ ] make basic design concept
+- [ ] design level using the push mechanics
 
-### Engine:
-	- [ ] make the textured materials have tint-colors for the albedo and specular maps
-	- [ ] make the blank textures, primitives and shaders part of the BitsCore projects asset folder and copy them
-	- [ ] add a tween-utils class that can move/rotate/scale objects smoothly over time
-	- [ ] add structures/constructs/groups/etc. just a couple of GO's grouped together (prefabs)
-	- [ ] add simple particle-system
-	- [ ] add simple batch-rendering
+### Engine
+- [ ] make the textured materials have tint-colors for the albedo and specular maps
+- [ ] make the blank textures, primitives and shaders part of the BitsCore projects asset folder and copy them
+- [ ] add a tween-utils class that can move/rotate/scale objects smoothly over time
+- [ ] add structures/constructs/groups/etc. just a couple of GO's grouped together (prefabs)
+- [ ] add simple particle-system
+- [ ] add simple batch-rendering
 
 
-Buggs:
+## Buggs
 
-	- [x] floor is lit differently than the other objects
-	- [x] movement "wraps" when moving out of bound to the left or right
-	- rotate char in direction of key-press even if that move if blocked
-	- AssetManager error message when wrong asset-name
-	- moving into pushable object on the left & right
+- [x] floor is lit differently than the other objects
+- [x] movement "wraps" when moving out of bound to the left or right
+- [ ] rotate char in direction of key-press even if that move if blocked
+- [ ] AssetManager error message when wrong asset-name
+- [ ] moving into pushable object on the left & right
