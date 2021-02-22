@@ -2,7 +2,9 @@
 Todo:
 	
 	Game:
-	- make/find texture for hero_defense_char (color palette texture used in "Hero Defense")
+	- [ ] make/find texture for hero_defense_char (color palette texture used in "Hero Defense")
+
+	- [ ] make a .md file for the be_safe page
 	
 	- [x] make a map and player tiles based on that not just a square
 	- [x] make the player be abled to walk the new map
