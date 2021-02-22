@@ -1,5 +1,4 @@
-﻿using BitsCore.Debugging;
-using BitsCore.Events_Input;
+﻿using BitsCore.Events;
 using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace BitsCore.InputSystem
@@ -403,7 +402,6 @@ namespace BitsCore.InputSystem
         private static void MouseScrollCallback(double x, double y)
         {
             Input.scrollDelta = (float)y; //vertical scrolling
-            BBug.Log(Input.scrollDelta);
         }
     }
 }

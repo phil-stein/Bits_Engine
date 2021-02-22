@@ -1,4 +1,4 @@
-﻿using BitsCore.Events_Input;
+﻿using BitsCore.Events;
 
 namespace BitsCore.ObjectData.Components
 {

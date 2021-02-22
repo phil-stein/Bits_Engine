@@ -29,6 +29,11 @@ namespace BitsCore.Utils
         {
             return start + percentage * (end - start);
         }
+        /// <summary> Linear-Interpolation between the start and end values by the given percentage </summary>
+        static public Vector3 Lerp(Vector3 start, Vector3 end, float percentage)
+        {
+            return new Vector3(start.X + percentage * (end.X - start.X), start.Y + percentage * (end.Y - start.Y), start.Z + percentage * (end.Z - start.Z));
+        }
 
         //Vector Matrix-Multiplication
         /// <summary> Multiply a Vector3 with a Matrix4x4. </summary>

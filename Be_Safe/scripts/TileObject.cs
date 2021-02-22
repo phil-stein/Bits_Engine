@@ -10,9 +10,9 @@ namespace BeSafe.Scripts
     {
 
         protected int curPosition = 0;
-        protected int xPos; // private as the are only correct directly after a call to UpdateCurTilePos()
-        protected int zPos; // private as the are only correct directly after a call to UpdateCurTilePos()
+        protected int xPos, zPos; // private as the are only correct directly after a call to UpdateCurTilePos()
 
+        protected TileObjectType type;
 
         public TileObject(int _curPosition)
         {

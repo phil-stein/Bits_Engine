@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Text;
-using BitsCore.Events_Input;
+using BitsCore.Events;
 
 namespace BitsCore.ObjectData.Components
 {

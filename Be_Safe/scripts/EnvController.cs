@@ -11,26 +11,40 @@ namespace BeSafe.Scripts
 {
     public static class EnvController
     {
+        struct MapObject
+        {
+            public GameObject gameObject;
+            public TileObjectType type;
+            public int tileIndex;
+
+            public MapObject(GameObject _gameObject, TileObjectType _type, int _tileIndex)
+            {
+                this.gameObject = _gameObject;
+                this.type = _type;
+                this.tileIndex = _tileIndex;
+            }
+        }
 
         public static int tileRows       = 20;
         public static int tileColumns    = 15;
         public static int tileDist       = 4;
         public static int positionIndex  = 0;
 
-        public const int playerStartPos = 0;
+        public const int playerStartPos = 2;
 
+        #region MAP
         // 'G': Grass; 'W': Water; '|': Wall-Straight; '-': Wall-Sideways; 'C': Corner;
         public const string mapString =
-            "GGGGGGGGGGGGGGG" +
-            "GGGGGGGGGGGGGGG" +
-            "GGGGGGGGGGGWWGG" +
-            "GGGGGGGGGGWWWGG" +
-            "GGGGGGGGGGWWWGG" +
-            "GGGGGGGGGGGGGGG" +
-            "GGGGGGGGGGGGGGG" +
-            "GGC-G---CGGGGGG" +
-            "GG|GGGGG|GGGGGG" +
-            "GG|GGGGG|GGGGGG" +
+            "C-G-----------C" +
+            "|GGGGGGGGGGGGG|" +
+            "|GGGGGGGGGGWWG|" +
+            "|GGGGGGGGGWWWG|" +
+            "|GGGGGGGGGWWWG|" +
+            "CGGGGGGGGGGGGG|" +
+            "GGGGGGGGGGGGGG|" +
+            "GGC-G---CGGGGG|" +
+            "GG|GGGGG|GGGGG|" +
+            "GG|GGGGG|GGGGGC" +
             "GG|GGGGG|GGGGGG" +
             "GG|GGGGG|GGGGGG" +
             "GG|GGGGG|GGGGGG" +
@@ -41,7 +55,7 @@ namespace BeSafe.Scripts
             "GGGWWGGGGGGGGGG" +
             "GGGWWGGGGGGGGGG" +
             "GGGGGGGGGGGGGGG";
-        // 'O': Ball
+        // 'O': Ball; 'C': Crate; 'P': Plant
         public const string propsString =
             "XXXXXXXXXXXXXXX" +
             "XXXXXXXXXXXPPXX" +
@@ -64,8 +78,9 @@ namespace BeSafe.Scripts
             "XXXXXXXXXXPPPXX" +
             "XXXXXXXXXXXPXXX";
         const float waterHeightDif = 0.25f;
+        #endregion
 
-        static Dictionary<int, GameObject> pushables = new Dictionary<int, GameObject>();
+        static Dictionary<int, MapObject> tileObjects = new Dictionary<int, MapObject>();
 
         public static List<GameObject> GenerateWorld()
         {
@@ -74,8 +89,9 @@ namespace BeSafe.Scripts
             // gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -12f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "sphere_poles")); //sphere
             // gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_CelShading"), "Cel_Crate01"));
 
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 1f, -8f), Vector3.Zero, Vector3.One * 0.75f, AssetManager.GetMaterial("Mat_Default_Light_Grey"), "hero_defense_char"));
-            gameObjects[gameObjects.Count - 1].AddComp(new PlayerController(playerStartPos)); //add script-comp
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 0f, -8f), Vector3.Zero, Vector3.One * 0.75f, AssetManager.GetMaterial("Mat_Default_Light_Grey"), "hero_defense_char"));
+            gameObjects[gameObjects.Count -1].AddComp(new PlayerController(playerStartPos)); //add script-comp
+            gameObjects[gameObjects.Count - 1].GetComp<PlayerController>().UpdatePlayerTilePos(); // on beeing spawned this sets the right location
             positionIndex = gameObjects.Count - 1;
 
             int tileChar = mapString.Length -1;
@@ -124,13 +140,13 @@ namespace BeSafe.Scripts
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One * 1.25f, AssetManager.GetMaterial("Mat_UV-Checkered"), "sphere_subdiv02"));
                         gameObjects[gameObjects.Count - 1].AddComp(new PushableObject(tileChar));
-                        pushables.Add(tileChar, gameObjects[gameObjects.Count -1]); // add to the tracked pushable-object
+                        tileObjects.Add(tileChar, new MapObject(gameObjects[gameObjects.Count -1], TileObjectType.PushableObject, tileChar)); // add to the tracked pushable-object
                     }
                     else if (propsString[tileChar] == 'C')
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Crate01"), "crate01"));
                         gameObjects[gameObjects.Count - 1].AddComp(new PushableObject(tileChar));
-                        pushables.Add(tileChar, gameObjects[gameObjects.Count - 1]); // add to the tracked pushable-object
+                        tileObjects.Add(tileChar, new MapObject(gameObjects[gameObjects.Count - 1], TileObjectType.PushableObject, tileChar)); // add to the tracked pushable-object
                     }
                     else if (propsString[tileChar] == 'P')
                     {
@@ -154,58 +170,63 @@ namespace BeSafe.Scripts
         {
             if(newTileIndex < 0 || newTileIndex >= mapString.Length) { return false; } // out of bounds of the array
 
+            // @UNSURE: move this to PushableObject class ???
             // use recursion to check the tile the pushable would be pushed
-            if(pushables.ContainsKey(newTileIndex))
+            if(tileObjects.ContainsKey(newTileIndex))
             {
-                // @TODO: the pushables wrap around the sides just like the player did,
-                //        prob. fix this by using a Move() func in the base-class
-                // pushing to the left
-                if(oldTileIndex - newTileIndex == 1)
+                if(tileObjects[newTileIndex].type == TileObjectType.PushableObject)
                 {
-                    if (!IsWalkableTile(newTileIndex, newTileIndex - 1)) // recursively check to make pushables push pushables
-                    { return false; }
-                    pushables[newTileIndex].GetComp<PushableObject>().Move(Direction.Left);
+                    // @TODO: the pushables wrap around the sides just like the player did,
+                    //        prob. fix this by using a Move() func in the base-class
+                    //        PS. Move() did fix it but now the objects get stuck
+                    // pushing to the left
+                    if (oldTileIndex - newTileIndex == 1)
+                    {
+                        if (!IsWalkableTile(newTileIndex, newTileIndex - 1)) // recursively check to make pushables push pushables
+                        { return false; }
+                        tileObjects[newTileIndex].gameObject.GetComp<PushableObject>().Move(Direction.Left);
 
-                    // @CLEANUP: is there a way to assign/change a key ?
-                    // create a new entry with the updated index as the key and remove the old one
-                    pushables.Add(newTileIndex - 1, pushables[newTileIndex]);
-                    pushables.Remove(newTileIndex);
-                }
-                // pushing to the right
-                if (newTileIndex - oldTileIndex == 1)
-                {
-                    if (!IsWalkableTile(newTileIndex, newTileIndex + 1)) // recursively check to make pushables push pushables
-                    { return false; }
-                    pushables[newTileIndex].GetComp<PushableObject>().Move(Direction.Right);
+                        // @CLEANUP: is there a way to assign/change a key ?
+                        // create a new entry with the updated index as the key and remove the old one
+                        tileObjects.Add(newTileIndex - 1, tileObjects[newTileIndex]);
+                        tileObjects.Remove(newTileIndex);
+                    }
+                    // pushing to the right
+                    if (newTileIndex - oldTileIndex == 1)
+                    {
+                        if (!IsWalkableTile(newTileIndex, newTileIndex + 1)) // recursively check to make pushables push pushables
+                        { return false; }
+                        tileObjects[newTileIndex].gameObject.GetComp<PushableObject>().Move(Direction.Right);
 
-                    // @CLEANUP: is there a way to assign/change a key ?
-                    // create a new entry with the updated index as the key and remove the old one
-                    pushables.Add(newTileIndex + 1, pushables[newTileIndex]);
-                    pushables.Remove(newTileIndex);
-                }
-                // pushing up
-                if (newTileIndex == (oldTileIndex + tileColumns))
-                {
-                    if(!IsWalkableTile(newTileIndex, newTileIndex + tileColumns)) // recursively check to make pushables push pushables
-                    { return false; }
-                    pushables[newTileIndex].GetComp<PushableObject>().Move(Direction.Up);
+                        // @CLEANUP: is there a way to assign/change a key ?
+                        // create a new entry with the updated index as the key and remove the old one
+                        tileObjects.Add(newTileIndex + 1, tileObjects[newTileIndex]);
+                        tileObjects.Remove(newTileIndex);
+                    }
+                    // pushing up
+                    if (newTileIndex == (oldTileIndex + tileColumns))
+                    {
+                        if (!IsWalkableTile(newTileIndex, newTileIndex + tileColumns)) // recursively check to make pushables push pushables
+                        { return false; }
+                        tileObjects[newTileIndex].gameObject.GetComp<PushableObject>().Move(Direction.Up);
 
-                    // @CLEANUP: is there a way to assign/change a key ?
-                    // create a new entry with the updated index as the key and remove the old one
-                    pushables.Add(newTileIndex + tileColumns, pushables[newTileIndex]);
-                    pushables.Remove(newTileIndex);
-                }
-                // pushing down
-                if (newTileIndex == (oldTileIndex - tileColumns))
-                {
-                    if (!IsWalkableTile(newTileIndex, newTileIndex - tileColumns)) // recursively check to make pushables push pushables
-                    { return false; }
-                    pushables[newTileIndex].GetComp<PushableObject>().Move(Direction.Down);
+                        // @CLEANUP: is there a way to assign/change a key ?
+                        // create a new entry with the updated index as the key and remove the old one
+                        tileObjects.Add(newTileIndex + tileColumns, tileObjects[newTileIndex]);
+                        tileObjects.Remove(newTileIndex);
+                    }
+                    // pushing down
+                    if (newTileIndex == (oldTileIndex - tileColumns))
+                    {
+                        if (!IsWalkableTile(newTileIndex, newTileIndex - tileColumns)) // recursively check to make pushables push pushables
+                        { return false; }
+                        tileObjects[newTileIndex].gameObject.GetComp<PushableObject>().Move(Direction.Down);
 
-                    // @CLEANUP: is there a way to assign/change a key ?
-                    // create a new entry with the updated index as the key and remove the old one
-                    pushables.Add(newTileIndex - tileColumns, pushables[newTileIndex]);
-                    pushables.Remove(newTileIndex);
+                        // @CLEANUP: is there a way to assign/change a key ?
+                        // create a new entry with the updated index as the key and remove the old one
+                        tileObjects.Add(newTileIndex - tileColumns, tileObjects[newTileIndex]);
+                        tileObjects.Remove(newTileIndex);
+                    }
                 }
             }
 

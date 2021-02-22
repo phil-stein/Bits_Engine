@@ -13,7 +13,7 @@ namespace BeSafe.Scripts
         // @TODO: somehow put this in the scriptcomponent class
         BeSafeApp app;
 
-        enum PlayerOrientation { Forward, Backward, Left, Right };
+        public enum PlayerOrientation { Forward, Backward, Left, Right };
 
         // vars ------------------------------------------
         Vector3 camOffset = new Vector3(-25f, 17.5f, 0f);
@@ -28,8 +28,10 @@ namespace BeSafe.Scripts
         
         bool editorCamMode = false;
 
-        public PlayerController(int _curPosition) : base(_curPosition)
+        public PlayerController(int _curPosition, PlayerOrientation initialOrientation = PlayerOrientation.Forward) : base(_curPosition)
         {
+            type = TileObjectType.Player;
+            playerOrientation = initialOrientation;
         }
 
         public override void OnStart()
@@ -126,6 +128,11 @@ namespace BeSafe.Scripts
                 }
             }
             #endregion
+
+            if (Input.IsDown(KeyCode.G))
+            {
+                TweenUtils.TweenPos(gameObject, new Vector3(gameObject.transform.position.X, gameObject.transform.position.Y + 1f, gameObject.transform.position.Z), 0.2f, true);
+            }
         }
 
         /// <summary> Update the placement of the player-char. </summary>

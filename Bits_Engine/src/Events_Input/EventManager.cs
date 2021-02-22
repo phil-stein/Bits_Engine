@@ -3,7 +3,7 @@ using GLFW;
 using System;
 using System.Diagnostics;
 
-namespace BitsCore.Events_Input
+namespace BitsCore.Events
 {
     public static class EventManager
     {

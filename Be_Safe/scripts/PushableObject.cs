@@ -8,6 +8,7 @@ namespace BeSafe.Scripts
     {
         public PushableObject(int _curPosition) : base(_curPosition)
         {
+            type = TileObjectType.PushableObject;
         }
 
         public override void OnStart()

@@ -3,10 +3,11 @@ using System;
 using BitsCore.DataManagement;
 using BitsCore.ObjectData.Materials;
 using BitsCore.Rendering;
-using BitsCore.Events_Input;
+using BitsCore.Events;
 using BitsCore.Rendering.Layers;
 using BitsCore.Debugging;
 using BitsCore.InputSystem;
+using BitsCore.Utils;
 
 namespace BitsCore
 {
@@ -67,6 +68,8 @@ namespace BitsCore
             //the order shouldn't be changed
             AssetManager.Init(); //gathers references to all the assets in the 'assets' folder
             TextRenderer.Init(48); //loads font, shader, vao, vbo, etc.
+
+            TweenUtils.Init(); // inits the tweenutils, setting up the update func
 
             Start();
             EventManager.InvokeLoadContentEvent(); //same as if(calledLoadContent != null) { calledLoadContent(); }, checks if event is assigned anywhere and if so invokes it

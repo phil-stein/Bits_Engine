@@ -8,7 +8,7 @@ using System.Text;
 using System.Xml.Serialization;
 using static BitsCore.OpenGL.GL;
 using System.Diagnostics;
-using BitsCore.Events_Input;
+using BitsCore.Events;
 
 namespace BitsCore.Rendering.Display
 {
