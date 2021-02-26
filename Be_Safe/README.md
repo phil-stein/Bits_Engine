@@ -28,7 +28,10 @@ top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing bo
 - [ ] @UNSURE: make the collision-system determine collision based on the image with the tile-layout
 - [x] make the EnvGen. be abled to have multiple strings/imgs as layers for the map, i.e. grass -> wall -> vines
 - [ ] make dif. models for each side of a water-facing tile 
-- [ ] define the structure for tile-layout i.e. GroundType -> Structure -> Deco
+
+- [x] define the structure for tile-layout i.e. GroundType -> Structure -> Deco
+- [ ] load maps from file [made loader, still have to make the map-creation in the EnvController]
+		-> @UNSURE: make a file-loading-util class in bits core ??? 
 
 - [x] make pushables
 - [x] @REFACTOR: make a base-class for player and pushables / all other dynamic map-entities
