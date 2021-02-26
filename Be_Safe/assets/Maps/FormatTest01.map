@@ -1,0 +1,4 @@
+// format test for how maps should be safed
+// some form of header with column by row, author and date
+// 01: Ground Structure(can be N for no structure) Object Object ... Object; Ground 
+// 01: Can be converted to bit-format easily i.e. 0x98(ground) 0x76(structure) 0x20(object) 0x00(semi-colon / terminator)

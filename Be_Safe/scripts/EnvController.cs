@@ -4,6 +4,7 @@ using BitsCore.ObjectData;
 using BitsCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Numerics;
 using System.Text;
 
@@ -33,7 +34,7 @@ namespace BeSafe.Scripts
         public const int playerStartPos = 2;
 
         #region MAP
-        // 'G': Grass; 'W': Water; '|': Wall-Straight; '-': Wall-Sideways; 'C': Corner;
+        // 'G': Grass; 'W': Water; '|': Wall-Straight; '-': Wall-Sideways; 'C': Corner; 'P': PressurePlate; 'D': Door
         public const string mapString =
             "C-G-----------C" +
             "|GGGGGGGGGGGGG|" +
@@ -46,9 +47,9 @@ namespace BeSafe.Scripts
             "GG|GGGGG|GGGGG|" +
             "GG|GGGGG|GGGGGC" +
             "GG|GGGGG|GGGGGG" +
+            "GG|GGGPG|GGGGGG" +
             "GG|GGGGG|GGGGGG" +
-            "GG|GGGGG|GGGGGG" +
-            "GGC-G---CGGGGGG" +
+            "GGC-D---CGGGGGG" +
             "GGGGGGGGGGGGGGG" +
             "GGGGGGGGGGGGGGG" +
             "GGGGGGGGGGGGGGG" +
@@ -79,6 +80,8 @@ namespace BeSafe.Scripts
             "XXXXXXXXXXXPXXX";
         const float waterHeightDif = 0.25f;
         #endregion
+
+        static GameObject doorObj; // @TEMP: only untile pressureplate - door linking is proper
 
         static Dictionary<int, MapObject> tileObjects = new Dictionary<int, MapObject>();
 
@@ -133,20 +136,32 @@ namespace BeSafe.Scripts
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_corner"));
                     }
+                    else if (mapString[tileChar] == 'D')
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_straight"));
+                        doorObj = gameObjects[gameObjects.Count - 1];
+                    }
+                    else if (mapString[tileChar] == 'P')
+                    {
+                        if (doorObj == null) { continue; } // @TEMP: only untile pressureplate - door linking is proper
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_pressure_plate"));
+                        gameObjects[gameObjects.Count - 1].AddComp(new PressurePlateObject(tileChar, PressurePlateObject.PressurePlateType.Door, doorObj));
+                        tileObjects.Add(tileChar, new MapObject(gameObjects[gameObjects.Count - 1], TileObjectType.PressurePlate, tileChar)); // add to the tracked tile-objects
+                    }
                     #endregion
 
                     #region PROPS
-                    if(propsString[tileChar] == 'O')
+                    if (propsString[tileChar] == 'O')
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One * 1.25f, AssetManager.GetMaterial("Mat_UV-Checkered"), "sphere_subdiv02"));
                         gameObjects[gameObjects.Count - 1].AddComp(new PushableObject(tileChar));
-                        tileObjects.Add(tileChar, new MapObject(gameObjects[gameObjects.Count -1], TileObjectType.PushableObject, tileChar)); // add to the tracked pushable-object
+                        tileObjects.Add(tileChar, new MapObject(gameObjects[gameObjects.Count -1], TileObjectType.Pushable, tileChar)); // add to the tracked pushable-object
                     }
                     else if (propsString[tileChar] == 'C')
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Crate01"), "crate01"));
                         gameObjects[gameObjects.Count - 1].AddComp(new PushableObject(tileChar));
-                        tileObjects.Add(tileChar, new MapObject(gameObjects[gameObjects.Count - 1], TileObjectType.PushableObject, tileChar)); // add to the tracked pushable-object
+                        tileObjects.Add(tileChar, new MapObject(gameObjects[gameObjects.Count - 1], TileObjectType.Pushable, tileChar)); // add to the tracked pushable-object
                     }
                     else if (propsString[tileChar] == 'P')
                     {
@@ -174,7 +189,7 @@ namespace BeSafe.Scripts
             // use recursion to check the tile the pushable would be pushed
             if(tileObjects.ContainsKey(newTileIndex))
             {
-                if(tileObjects[newTileIndex].type == TileObjectType.PushableObject)
+                if(tileObjects[newTileIndex].type == TileObjectType.Pushable)
                 {
                     // @TODO: the pushables wrap around the sides just like the player did,
                     //        prob. fix this by using a Move() func in the base-class
@@ -228,10 +243,56 @@ namespace BeSafe.Scripts
                         tileObjects.Remove(newTileIndex);
                     }
                 }
+
+                else if(tileObjects[newTileIndex].type == TileObjectType.PressurePlate)
+                {
+                    // @CLEANUP: direction is irrelevant here
+
+                    // pushing to the left
+                    if (oldTileIndex - newTileIndex == 1)
+                    {
+                        tileObjects[newTileIndex].gameObject.GetComp<PressurePlateObject>().Interact(Direction.Left);
+                    }
+                    // pushing to the right
+                    if (newTileIndex - oldTileIndex == 1)
+                    {
+                        tileObjects[newTileIndex].gameObject.GetComp<PressurePlateObject>().Interact(Direction.Right);
+                    }
+                    // pushing up
+                    if (newTileIndex == (oldTileIndex + tileColumns))
+                    {
+                        tileObjects[newTileIndex].gameObject.GetComp<PressurePlateObject>().Interact(Direction.Up);
+                    }
+                    // pushing down
+                    if (newTileIndex == (oldTileIndex - tileColumns))
+                    {
+                        tileObjects[newTileIndex].gameObject.GetComp<PressurePlateObject>().Interact(Direction.Down);
+                    }
+                }
             }
 
             // BBug.Log("Attempt to walk on tile: '" + mapString[tileIndex] + "'");
             return mapString[newTileIndex] != 'W' && mapString[newTileIndex] != 'C' && mapString[newTileIndex] != '|' && mapString[newTileIndex] != '-';
+        }
+
+        // @REFACTOR: needs to be overhauled after implementing the proper tile structure
+        public static void TileInfo(int tileIndex, out char tileType, out bool isObjOnTile, out TileObjectType objOnTileType, out GameObject tileObj)
+        {
+            tileType = mapString[tileIndex];
+
+            if(tileObjects.ContainsKey(tileIndex))
+            {
+                isObjOnTile = true;
+                objOnTileType = tileObjects[tileIndex].type;
+                tileObj = tileObjects[tileIndex].gameObject;
+            }
+            else
+            {
+                // no obj in that tile
+                isObjOnTile = false;
+                objOnTileType = TileObjectType.Pushable;
+                tileObj = null;
+            }
         }
 
         // @Cleanup, @Refactor: move this into the base-class for player, pushables, etc.

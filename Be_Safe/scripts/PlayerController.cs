@@ -19,7 +19,7 @@ namespace BeSafe.Scripts
         Vector3 camOffset = new Vector3(-25f, 17.5f, 0f);
         const float camFollowSpeed = 0.5f;
 
-        // @TODO: use const floats/ints here
+        // @UNSURE: use const floats here
         Vector3 playerRot_Forward   = new Vector3(0f, 90f, 0f);
         Vector3 playerRot_Backward  = new Vector3(0f, -90f, 0f);
         Vector3 playerRot_Left      = new Vector3(0f, 180f, 0f);

@@ -19,6 +19,10 @@ namespace BeSafe.Scripts
             this.curPosition = _curPosition;
         }
 
+        // abstract functions -----------------------------------------------
+        public virtual bool Interact(Direction dir) { return false; } // @TODO: make abstract, use this instead of defining the reactions of the objects in the EnvCon.
+
+        // normal functions -------------------------------------------------
 
         /// <summary> Update the placement of the player-char. </summary>
         public void UpdateCurTilePos()

@@ -33,14 +33,17 @@ top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing bo
 - [x] make pushables
 - [x] @REFACTOR: make a base-class for player and pushables / all other dynamic map-entities
 - [x] make the tile-check based on the type of object, i.e. so that pushable objects can be pushed into the water
+- [ ] @UNSURE: move pushable logic from EnvController to TileObject
+		-> make a interaction function in the TileObject base-class and call that each from EnvGen to have the reactions in the objects classes
 - [ ] make a button / pressure-plate you can push objects onto 
 - [ ] make the button / pressure-plate open a door
-- [ ] @UNSURE: move pushable logic from EnvController to TileObject
 
 - [x] add seperate text for current-tile [x] / player-pos[x] / draw-calls [x]
 
 ### GameDesign
 - [ ] find a name
+- [ ] define basic visual theme
+- [ ] define art style
 - [ ] make basic design concept
 - [ ] design level using the push mechanics
 
