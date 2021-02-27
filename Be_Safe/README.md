@@ -48,13 +48,14 @@ top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing bo
 - [x] add seperate text for current-tile [x] / player-pos[x] / draw-calls [x]
 
 ### GameDesign
-- [ ] find a name
-- [ ] define basic visual theme
-- [ ] define art style
+- [ ] find a name & rename project 
+- [x] define basic visual theme PostApocalyptic / Dystopian / Overgrown
+- [x] define art style realistic-cartoony
 - [ ] make basic design concept
 - [ ] design level using the push mechanics
 
 ### Engine
+- [ ] finish the scene-system
 - [ ] make the textured materials have tint-colors for the albedo and specular maps
 - [ ] make the blank textures, primitives and shaders part of the BitsCore projects asset folder and copy them
 - [ ] add a tween-utils class that can move/rotate/scale objects smoothly over time

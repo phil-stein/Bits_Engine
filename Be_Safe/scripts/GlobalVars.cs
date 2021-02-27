@@ -4,12 +4,14 @@ using System.Text;
 
 namespace BeSafe.Scripts
 {
+    // enums ---------------------------------------------------------------------------------------------------------
     public enum Direction { Up, Down, Left, Right };
 
     public enum TileObjectType { Player, Pushable, PressurePlate }
 
-    // MapData ----------------------
-    public class MapData
+
+    // classes -------------------------------------------------------------------------------------------------------
+    public class TileData
     {
         public enum GroundType { Grass, Water } // @TODO: CLiff(straight, etc.), Rock, Elevated, ...
         public enum StructureType { None, Wall_Straight, Wall_Sideways, Wall_Corner, PressurePlate } // @TODO: Door
@@ -19,7 +21,7 @@ namespace BeSafe.Scripts
         public StructureType structureType;
         public ObjectType[]  objectTypes;
 
-        public MapData(GroundType _groundType, StructureType _structureType, ObjectType[] _objectTypes)
+        public TileData(GroundType _groundType, StructureType _structureType, ObjectType[] _objectTypes)
         {
             this.groundType = _groundType;
             this.structureType = _structureType;

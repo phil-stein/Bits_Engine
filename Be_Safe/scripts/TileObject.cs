@@ -84,5 +84,11 @@ namespace BeSafe.Scripts
             }
             return newPos;
         }
+
+        void TileToPos(int curPos, out int xPos, out int zPos)
+        {
+            xPos = ((curPos / EnvController.tileColumns) % EnvController.tileRows) * EnvController.tileDist;
+            zPos = (curPos % EnvController.tileColumns) * EnvController.tileDist;
+        }
     }
 }

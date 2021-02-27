@@ -13,13 +13,13 @@ namespace BeSafe.Scripts
     {
 
         // @HINT: newline-chars could be a problem
-        public static MapData[] LoadMap(string fileName, bool useAssetsMapsDir, out int columns, out int rows, out int playerStart)
+        public static TileData[] LoadMap(string fileName, bool useAssetsMapsDir, out int columns, out int rows, out int playerStart)
         {
             bool fileExt = fileName.Contains(".map"); //checks whether the given name has the file-extension in it, to pass it extra or not
             string path = useAssetsMapsDir ? DataManager.assetsPath + @"\Maps\" + fileName + (fileExt ? "" : ".map") : fileName;
             if (!File.Exists(path)) { throw new Exception("!!! File '" + path + "' doesn't exist !!!"); }
 
-            List<MapData> mapData = new List<MapData>();
+            List<TileData> mapData = new List<TileData>();
 
             columns     = 0;
             rows        = 0;
@@ -74,9 +74,9 @@ namespace BeSafe.Scripts
                 }
                 #endregion
 
-                MapData.GroundType groundType;
-                MapData.StructureType structureType;
-                List<MapData.ObjectType> objectTypes = new List<MapData.ObjectType>();
+                TileData.GroundType groundType;
+                TileData.StructureType structureType;
+                List<TileData.ObjectType> objectTypes = new List<TileData.ObjectType>();
 
                 // remove empty strings
                 List<string> wordsSplit = text.Split(" ").ToList();
@@ -116,38 +116,38 @@ namespace BeSafe.Scripts
                     }
                 }
 
-                mapData.Add(new MapData(groundType, structureType, objectTypes.ToArray()));
+                mapData.Add(new TileData(groundType, structureType, objectTypes.ToArray()));
             }
 
             return mapData.ToArray();
         }
 
-        static MapData.GroundType ReadGroundType(string word)
+        static TileData.GroundType ReadGroundType(string word)
         {
-            if(word == "grass") { return MapData.GroundType.Grass; } 
-            else if(word == "water") { return MapData.GroundType.Water; }
+            if(word == "grass") { return TileData.GroundType.Grass; } 
+            else if(word == "water") { return TileData.GroundType.Water; }
 
             BBug.Log("!!! MapLoader: GroundType not recognized: '" + word + "'");
-            return MapData.GroundType.Grass;
+            return TileData.GroundType.Grass;
         }
-        static MapData.StructureType ReadStructureType(string word)
+        static TileData.StructureType ReadStructureType(string word)
         {
-            if(word == "N") { return MapData.StructureType.None; } 
-            else if(word == "wall_corner") { return MapData.StructureType.Wall_Corner; } 
-            else if(word == "wall_straight") { return MapData.StructureType.Wall_Straight; } 
-            else if(word == "wall_side") { return MapData.StructureType.Wall_Sideways; }
-            else if(word == "pressure_plate") { return MapData.StructureType.PressurePlate; }
+            if(word == "N") { return TileData.StructureType.None; } 
+            else if(word == "wall_corner") { return TileData.StructureType.Wall_Corner; } 
+            else if(word == "wall_straight") { return TileData.StructureType.Wall_Straight; } 
+            else if(word == "wall_side") { return TileData.StructureType.Wall_Sideways; }
+            else if(word == "pressure_plate") { return TileData.StructureType.PressurePlate; }
 
             BBug.Log("!!! MapLoader: StructureType not recognized: '" + word + "'");
-            return MapData.StructureType.None;
+            return TileData.StructureType.None;
         }
-        static MapData.ObjectType ReadObjectType(string word)
+        static TileData.ObjectType ReadObjectType(string word)
         {
-            if(word == "crate") { return MapData.ObjectType.Crate; } 
-            else if(word == "plant") { return MapData.ObjectType.Plant; } 
+            if(word == "crate") { return TileData.ObjectType.Crate; } 
+            else if(word == "plant") { return TileData.ObjectType.Plant; } 
 
             BBug.Log("!!! MapLoader: ObjectType not recognized: '" + word + "'");
-            return MapData.ObjectType.Crate;
+            return TileData.ObjectType.Crate;
         }
 
     }

@@ -81,7 +81,7 @@ namespace BeSafe.Scripts
         const float waterHeightDif = 0.25f;
         #endregion
 
-        static MapData[] mapData;
+        static TileData[] mapData;
 
         static GameObject doorObj; // @TEMP: only untile pressureplate - door linking is proper
 
@@ -205,45 +205,45 @@ namespace BeSafe.Scripts
                 for (int row = tileColumns; row > 0 && mapDataPos >= 0; row--)
                 {
                     #region GROUND
-                    if (mapData[mapDataPos].groundType == MapData.GroundType.Grass)
+                    if (mapData[mapDataPos].groundType == TileData.GroundType.Grass)
                     {
                         // water to the right
-                        if (mapDataPos + 1 < mapData.Length && mapData[mapDataPos + 1].groundType == MapData.GroundType.Water)
+                        if (mapDataPos + 1 < mapData.Length && mapData[mapDataPos + 1].groundType == TileData.GroundType.Water)
                         { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_extruded")); }
                         // water to the left
-                        else if (mapDataPos - 1 >= 0 && mapData[mapDataPos - 1].groundType == MapData.GroundType.Water)
+                        else if (mapDataPos - 1 >= 0 && mapData[mapDataPos - 1].groundType == TileData.GroundType.Water)
                         { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_extruded")); }
                         // water above
-                        else if (mapDataPos + tileColumns < mapData.Length && mapData[mapDataPos + tileColumns].groundType == MapData.GroundType.Water)
+                        else if (mapDataPos + tileColumns < mapData.Length && mapData[mapDataPos + tileColumns].groundType == TileData.GroundType.Water)
                         { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_extruded")); }
                         // water below
-                        else if (mapDataPos - tileColumns >= 0 && mapData[mapDataPos - tileColumns].groundType == MapData.GroundType.Water)
+                        else if (mapDataPos - tileColumns >= 0 && mapData[mapDataPos - tileColumns].groundType == TileData.GroundType.Water)
                         { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_extruded")); }
                         else
                         { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_flat")); }
                         
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_flat"));
                     }
-                    else if (mapData[mapDataPos].groundType == MapData.GroundType.Water)
+                    else if (mapData[mapDataPos].groundType == TileData.GroundType.Water)
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f - waterHeightDif, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Default"), "tile_flat"));
                     }
                     #endregion
 
                     #region STRUCTURES
-                    if (mapData[mapDataPos].structureType == MapData.StructureType.Wall_Corner)
+                    if (mapData[mapDataPos].structureType == TileData.StructureType.Wall_Corner)
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_corner_round"));
                     }
-                    else if (mapData[mapDataPos].structureType == MapData.StructureType.Wall_Straight)
+                    else if (mapData[mapDataPos].structureType == TileData.StructureType.Wall_Straight)
                     {
-                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_straight"));
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Wall01"), "tile_wall_straight"));
                     }
-                    else if (mapData[mapDataPos].structureType == MapData.StructureType.Wall_Sideways)
+                    else if (mapData[mapDataPos].structureType == TileData.StructureType.Wall_Sideways)
                     {
-                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_sideways"));
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), new Vector3(0f, 90f, 0f), Vector3.One, AssetManager.GetMaterial("Mat_Wall01"), "tile_wall_straight")); // the straight wall just rotated
                     }
-                    else if (mapData[mapDataPos].structureType == MapData.StructureType.PressurePlate)
+                    else if (mapData[mapDataPos].structureType == TileData.StructureType.PressurePlate)
                     {
                         // if (doorObj == null) { continue; } // @TEMP: only untile pressureplate - door linking is proper
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_pressure_plate"));
@@ -253,16 +253,16 @@ namespace BeSafe.Scripts
                     #endregion
 
                     #region OBJECTS
-                    foreach (MapData.ObjectType obj in mapData[mapDataPos].objectTypes)
-                    if (obj == MapData.ObjectType.Crate)
+                    foreach (TileData.ObjectType obj in mapData[mapDataPos].objectTypes)
+                    if (obj == TileData.ObjectType.Crate)
                     {
                         gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Crate01"), "crate01"));
                         gameObjects[gameObjects.Count - 1].AddComp(new PushableObject(mapDataPos));
                         tileObjects.Add(mapDataPos, new MapObject(gameObjects[gameObjects.Count - 1], TileObjectType.Pushable, mapDataPos)); // add to the tracked pushable-object
                     }
-                    else if (obj == MapData.ObjectType.Plant)
+                    else if (obj == TileData.ObjectType.Plant)
                     {
-                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Plant01"), "post_apocalyptic_plant02"));
+                            gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), new Vector3(0f, 180f, 0f), Vector3.One, AssetManager.GetMaterial("Mat_Plants01"), "plants01_group_wall_straight01"));
                     }
                     #endregion
 
@@ -369,13 +369,12 @@ namespace BeSafe.Scripts
             }
 
             // BBug.Log("Attempt to walk on tile: '" + mapString[tileIndex] + "'");
-            return mapData[newTileIndex].groundType != MapData.GroundType.Water && mapData[newTileIndex].structureType != MapData.StructureType.Wall_Corner && mapData[newTileIndex].structureType != MapData.StructureType.Wall_Straight && mapData[newTileIndex].structureType != MapData.StructureType.Wall_Sideways;
+            return mapData[newTileIndex].groundType != TileData.GroundType.Water && mapData[newTileIndex].structureType != TileData.StructureType.Wall_Corner && mapData[newTileIndex].structureType != TileData.StructureType.Wall_Straight && mapData[newTileIndex].structureType != TileData.StructureType.Wall_Sideways;
         }
 
-        // @REFACTOR: needs to be overhauled after implementing the proper tile structure
-        public static void TileInfo(int tileIndex, out char tileType, out bool isObjOnTile, out TileObjectType objOnTileType, out GameObject tileObj)
+        public static void TileInfo(int tileIndex, out TileData tileData, out bool isObjOnTile, out TileObjectType objOnTileType, out GameObject tileObj)
         {
-            tileType = mapString[tileIndex];
+            tileData = mapData[tileIndex];
 
             if(tileObjects.ContainsKey(tileIndex))
             {
@@ -392,11 +391,5 @@ namespace BeSafe.Scripts
             }
         }
 
-        // @Cleanup, @Refactor: move this into the base-class for player, pushables, etc.
-        static void TileToPos(int curPos, out int xPos, out int zPos)
-        {
-            xPos = ((curPos / EnvController.tileColumns) % EnvController.tileRows) * EnvController.tileDist;
-            zPos = (curPos % EnvController.tileColumns) * EnvController.tileDist;
-        }
     }
 }

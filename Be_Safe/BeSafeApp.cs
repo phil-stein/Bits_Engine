@@ -318,10 +318,14 @@ namespace BeSafe
             AssetManager.AddMaterial("Mat_Grass01", new TexturedPhongMaterial(
                         AssetManager.GetShader("Shader_Textured"),
                         AssetManager.GetTexture("grass01_dif"), AssetManager.GetTexture("grass01_spec"), 1f, 1f, 1f));
-
-            AssetManager.AddMaterial("Mat_Plant01", new TexturedPhongMaterial(
-                        AssetManager.GetShader("Shader_Textured"),
-                        AssetManager.GetTexture("plant01_dif"), AssetManager.GetTexture("plant01_dif"), 1f));
+            
+            AssetManager.AddMaterial("Mat_Wall01", new TexturedPhongMaterial(
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("wall01_dif"), AssetManager.GetTexture("blank_black"), 1f));
+            
+            AssetManager.AddMaterial("Mat_Plants01", new TexturedPhongMaterial(
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("plants01_dif"), AssetManager.GetTexture("blank_black"), 1f));
 
             AssetManager.AddMaterial("Mat_Tile", new TexturedPhongMaterial(
                 AssetManager.GetShader("Shader_Textured"),

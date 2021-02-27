@@ -141,10 +141,10 @@ namespace BeSafe.Scripts
             UpdateCurTilePos(); // sets the position
 
             // set player rotation
-            gameObject.transform.rotation = playerOrientation == PlayerOrientation.Forward ? playerRot_Forward :
+            gameObject.transform.rotation = playerOrientation == PlayerOrientation.Forward  ? playerRot_Forward :
                                             playerOrientation == PlayerOrientation.Backward ? playerRot_Backward :
-                                            playerOrientation == PlayerOrientation.Left ? playerRot_Left :
-                                            playerOrientation == PlayerOrientation.Right ? playerRot_Right : Vector3.Zero;
+                                            playerOrientation == PlayerOrientation.Left     ? playerRot_Left :
+                                            playerOrientation == PlayerOrientation.Right    ? playerRot_Right : Vector3.Zero;
         }
 
         public override void Move(Direction dir)
