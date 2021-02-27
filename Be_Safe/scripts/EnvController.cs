@@ -194,7 +194,7 @@ namespace BeSafe.Scripts
 
             List<GameObject> gameObjects = new List<GameObject>();
 
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 0f, -8f), Vector3.Zero, Vector3.One * 0.75f, AssetManager.GetMaterial("Mat_Default_Light_Grey"), "hero_defense_char"));
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 0f, -8f), Vector3.Zero, Vector3.One * 0.5f, AssetManager.GetMaterial("Mat_Default_Light_Grey"), "hero_defense_char"));
             gameObjects[gameObjects.Count - 1].AddComp(new PlayerController(playerStartPos)); //add script-comp
             gameObjects[gameObjects.Count - 1].GetComp<PlayerController>().UpdatePlayerTilePos(); // on beeing spawned this sets the right location
             positionIndex = gameObjects.Count - 1;
@@ -233,7 +233,7 @@ namespace BeSafe.Scripts
                     #region STRUCTURES
                     if (mapData[mapDataPos].structureType == TileData.StructureType.Wall_Corner)
                     {
-                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_corner_round"));
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Wall01"), "tile_wall_corner_round"));
                     }
                     else if (mapData[mapDataPos].structureType == TileData.StructureType.Wall_Straight)
                     {
