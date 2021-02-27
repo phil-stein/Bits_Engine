@@ -47,7 +47,7 @@ namespace BeSafe
             //MakeGameObjects().Wait();
             //gameObjects = new GameObject[] { GameObject.CreateGrid(200, 200, new Vector3(-2f, -2f, 2.75f), Vector3.Zero, Vector3.One * 20f, MaterialLibrary.terrain, true, .5f, 0.02f) };
             
-            List<GameObject> gameObjects = EnvController.GenerateWorld(); // special class to extract the world controll from the application class
+            List<GameObject> gameObjects = EnvController.GenerateWorldTextFile("test01.map"); // special class to extract the world controll from the application class
 
             BBug.StopTimer(); // gameobject creation timer
             #endregion
@@ -229,7 +229,7 @@ namespace BeSafe
             }
             //add fps-counter and title disclaimer to the window title
             string titleDiscalimer = paused ? " - PAUSED" : (Renderer.wireFrameMode ? " - WIREFRAME" : (Renderer.normalMode ? " - NORMALS" : (Renderer.uvMode ? " - UV_COORDS" : "")));
-            DisplayManager.SetWindowTitle("TestEnvironment - " + curFps.ToString() + " fps" + titleDiscalimer);
+            DisplayManager.SetWindowTitle("BE SAFE - " + curFps.ToString() + " fps" + titleDiscalimer);
             mainLayerUI.SetText("FPS", "FPS: " + curFps);
             mainLayerUI.SetText("DISCL", "Mode: " + (titleDiscalimer == "" ? " - Default" : titleDiscalimer));
             #endregion

@@ -24,13 +24,17 @@ top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing bo
 - [x] make the player be abled to walk the new map
 - [x] check the player leaving out the left/right side of the map
 - [ ] make it be abled to move between sections
-- [ ] make it load based on an image specifying the tiles
-- [ ] @UNSURE: make the collision-system determine collision based on the image with the tile-layout
 - [x] make the EnvGen. be abled to have multiple strings/imgs as layers for the map, i.e. grass -> wall -> vines
 - [ ] make dif. models for each side of a water-facing tile 
 
+- [ ] make the cliff-sides as ground-types
+- [ ] make the maploader / envcontroller surround the map with cliff / water
+- [ ] make rough models for the walls / etc.
+- [ ] make a chance for an empty grass tile to have pebbles spawn on it
+
+
 - [x] define the structure for tile-layout i.e. GroundType -> Structure -> Deco
-- [ ] load maps from file [made loader, still have to make the map-creation in the EnvController]
+- [x] load maps from file [made loader, still have to make the map-creation in the EnvController]
 		-> @UNSURE: make a file-loading-util class in bits core ??? 
 
 - [x] make pushables

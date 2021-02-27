@@ -12,8 +12,8 @@ namespace BeSafe.Scripts
     public class MapData
     {
         public enum GroundType { Grass, Water } // @TODO: CLiff(straight, etc.), Rock, Elevated, ...
-        public enum StructureType { None, Wall_Straight, Wall_Sideways, Wall_Corner} // @TODO: Door
-        public enum ObjectType { Crate } // @TODO: PressurePlate
+        public enum StructureType { None, Wall_Straight, Wall_Sideways, Wall_Corner, PressurePlate } // @TODO: Door
+        public enum ObjectType { Crate, Plant }
 
         public GroundType    groundType;
         public StructureType structureType;

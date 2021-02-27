@@ -26,12 +26,12 @@ namespace BeSafe.Scripts
             }
         }
 
-        public static int tileRows       = 20;
-        public static int tileColumns    = 15;
+        public static int tileRows       = 0;
+        public static int tileColumns    = 0;
         public static int tileDist       = 4;
         public static int positionIndex  = 0;
 
-        public const int playerStartPos = 2;
+        public static int playerStartPos = 0;
 
         #region MAP
         // 'G': Grass; 'W': Water; '|': Wall-Straight; '-': Wall-Sideways; 'C': Corner; 'P': PressurePlate; 'D': Door
@@ -80,6 +80,8 @@ namespace BeSafe.Scripts
             "XXXXXXXXXXXPXXX";
         const float waterHeightDif = 0.25f;
         #endregion
+
+        static MapData[] mapData;
 
         static GameObject doorObj; // @TEMP: only untile pressureplate - door linking is proper
 
@@ -170,6 +172,101 @@ namespace BeSafe.Scripts
                     #endregion
 
                     tileChar--;
+                }
+            }
+
+            BBug.StartTimer("Lights creation");
+            gameObjects.Add(GameObject.CreateDirectionalLight(new Vector3(0.5f, 4f, 0f), new Vector3(20f, -30f, 0f), Vector3.One, AssetManager.GetMaterial("Mat_DefaultLight"), new Vector3(1.0f, 1.0f, 1.0f), 1.0f)); //0.5f
+            BBug.StopTimer();
+
+            return gameObjects;
+        }
+
+        public static List<GameObject> GenerateWorldTextFile(string fileName)
+        {
+            // load the map data
+            mapData = MapLoader.LoadMap(fileName, true, out int columns, out int rows, out int playerStart);
+
+            tileColumns    = columns;
+            tileRows       = rows;
+            playerStartPos = playerStart;
+            BBug.Log("Read PlayerStart: '" + playerStart + "'");
+
+            List<GameObject> gameObjects = new List<GameObject>();
+
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 0f, -8f), Vector3.Zero, Vector3.One * 0.75f, AssetManager.GetMaterial("Mat_Default_Light_Grey"), "hero_defense_char"));
+            gameObjects[gameObjects.Count - 1].AddComp(new PlayerController(playerStartPos)); //add script-comp
+            gameObjects[gameObjects.Count - 1].GetComp<PlayerController>().UpdatePlayerTilePos(); // on beeing spawned this sets the right location
+            positionIndex = gameObjects.Count - 1;
+
+            int mapDataPos = mapData.Length -1; // walks through the mapdata backwards
+            for (int column = tileRows; column > 0 && mapDataPos >= 0; column--)
+            { 
+                for (int row = tileColumns; row > 0 && mapDataPos >= 0; row--)
+                {
+                    #region GROUND
+                    if (mapData[mapDataPos].groundType == MapData.GroundType.Grass)
+                    {
+                        // water to the right
+                        if (mapDataPos + 1 < mapData.Length && mapData[mapDataPos + 1].groundType == MapData.GroundType.Water)
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_extruded")); }
+                        // water to the left
+                        else if (mapDataPos - 1 >= 0 && mapData[mapDataPos - 1].groundType == MapData.GroundType.Water)
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_extruded")); }
+                        // water above
+                        else if (mapDataPos + tileColumns < mapData.Length && mapData[mapDataPos + tileColumns].groundType == MapData.GroundType.Water)
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_extruded")); }
+                        // water below
+                        else if (mapDataPos - tileColumns >= 0 && mapData[mapDataPos - tileColumns].groundType == MapData.GroundType.Water)
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_extruded")); }
+                        else
+                        { gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_flat")); }
+                        
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Grass01"), "tile_flat"));
+                    }
+                    else if (mapData[mapDataPos].groundType == MapData.GroundType.Water)
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f - waterHeightDif, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Default"), "tile_flat"));
+                    }
+                    #endregion
+
+                    #region STRUCTURES
+                    if (mapData[mapDataPos].structureType == MapData.StructureType.Wall_Corner)
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_corner_round"));
+                    }
+                    else if (mapData[mapDataPos].structureType == MapData.StructureType.Wall_Straight)
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_straight"));
+                    }
+                    else if (mapData[mapDataPos].structureType == MapData.StructureType.Wall_Sideways)
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_wall_sideways"));
+                    }
+                    else if (mapData[mapDataPos].structureType == MapData.StructureType.PressurePlate)
+                    {
+                        // if (doorObj == null) { continue; } // @TEMP: only untile pressureplate - door linking is proper
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_UV-Checkered"), "tile_pressure_plate"));
+                        //gameObjects[gameObjects.Count - 1].AddComp(new PressurePlateObject(tileChar, PressurePlateObject.PressurePlateType.Door, doorObj));
+                        //tileObjects.Add(tileChar, new MapObject(gameObjects[gameObjects.Count - 1], TileObjectType.PressurePlate, tileChar)); // add to the tracked tile-objects
+                    }
+                    #endregion
+
+                    #region OBJECTS
+                    foreach (MapData.ObjectType obj in mapData[mapDataPos].objectTypes)
+                    if (obj == MapData.ObjectType.Crate)
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 1f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Crate01"), "crate01"));
+                        gameObjects[gameObjects.Count - 1].AddComp(new PushableObject(mapDataPos));
+                        tileObjects.Add(mapDataPos, new MapObject(gameObjects[gameObjects.Count - 1], TileObjectType.Pushable, mapDataPos)); // add to the tracked pushable-object
+                    }
+                    else if (obj == MapData.ObjectType.Plant)
+                    {
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Plant01"), "post_apocalyptic_plant02"));
+                    }
+                    #endregion
+
+                    mapDataPos--;
                 }
             }
 
@@ -272,7 +369,7 @@ namespace BeSafe.Scripts
             }
 
             // BBug.Log("Attempt to walk on tile: '" + mapString[tileIndex] + "'");
-            return mapString[newTileIndex] != 'W' && mapString[newTileIndex] != 'C' && mapString[newTileIndex] != '|' && mapString[newTileIndex] != '-';
+            return mapData[newTileIndex].groundType != MapData.GroundType.Water && mapData[newTileIndex].structureType != MapData.StructureType.Wall_Corner && mapData[newTileIndex].structureType != MapData.StructureType.Wall_Straight && mapData[newTileIndex].structureType != MapData.StructureType.Wall_Sideways;
         }
 
         // @REFACTOR: needs to be overhauled after implementing the proper tile structure
