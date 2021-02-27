@@ -16,7 +16,10 @@ Isn't ready yet :) <br>
 Slower that a C / C++ Engine would likely be. <br>
 Memory allocation is really bad at the moment. <br>
 
+Doesn't use PBR, but rather a Blinn-Phong lighting model. <br>
+
 ## Table Of Contents
+
 1. [Description / Premise](https://github.com/phil-stein/Bits_Engine#description--premise)
 2. [...](https://github.com/phil-stein/Bits_Engine#)
 3. [Todo](https://github.com/phil-stein/Bits_Engine#todo)

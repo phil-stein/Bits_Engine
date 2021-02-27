@@ -226,7 +226,7 @@ namespace BeSafe.Scripts
                     }
                     else if (mapData[mapDataPos].groundType == TileData.GroundType.Water)
                     {
-                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f - waterHeightDif, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Default"), "tile_flat"));
+                        gameObjects.Add(GameObject.CreateFromFile(new Vector3((column - 1) * tileDist, 0f - waterHeightDif, (row - 1) * tileDist), Vector3.Zero, Vector3.One, AssetManager.GetMaterial("Mat_Water01"), "tile_flat"));
                     }
                     #endregion
 
