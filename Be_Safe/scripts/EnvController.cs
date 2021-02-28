@@ -1,6 +1,8 @@
 ﻿using BitsCore;
 using BitsCore.Debugging;
 using BitsCore.ObjectData;
+using BitsCore.Rendering;
+using BitsCore.Rendering.Cameras;
 using BitsCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -194,7 +196,7 @@ namespace BeSafe.Scripts
 
             List<GameObject> gameObjects = new List<GameObject>();
 
-            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 0f, -8f), Vector3.Zero, Vector3.One * 0.5f, AssetManager.GetMaterial("Mat_Default_Light_Grey"), "hero_defense_char"));
+            gameObjects.Add(GameObject.CreateFromFile(new Vector3(0f, 0f, -8f), Vector3.Zero, Vector3.One * 0.5f, AssetManager.GetMaterial("Mat_Default_Light_Grey"), "robot01_LD"));
             gameObjects[gameObjects.Count - 1].AddComp(new PlayerController(playerStartPos)); //add script-comp
             gameObjects[gameObjects.Count - 1].GetComp<PlayerController>().UpdatePlayerTilePos(); // on beeing spawned this sets the right location
             positionIndex = gameObjects.Count - 1;
@@ -389,6 +391,22 @@ namespace BeSafe.Scripts
                 objOnTileType = TileObjectType.Pushable;
                 tileObj = null;
             }
+        }
+
+        public static void SwitchMap(string mapName)
+        {
+            //Background-Color ---------------------------------------------------------------------------------------------------------------------
+            Renderer.bgCol = new Vector3((float)166 / 255, (float)222 / 255, (float)255 / 255); //light-blue
+            //Renderer.bgCol = new Vector3((float)10 / 255, (float)16 / 255, (float)25 / 255); //darker-blue
+
+            //instatiates mainCam setting position and rotation, set the CameraMode
+            Renderer.mainCam.transform.position = new Vector3(-30f, 18f, 0f);
+            Renderer.mainCam.transform.rotation = new Vector3(0f, 0f, 0f);
+
+
+            tileObjects = new Dictionary<int, MapObject>(); // clear the tile-objects
+            Renderer.ClearActiveLayerObject(); // remove all objects
+            Renderer.Submit(GenerateWorldTextFile(mapName));
         }
 
     }

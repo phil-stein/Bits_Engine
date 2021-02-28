@@ -691,6 +691,24 @@ namespace BitsCore.Rendering
 
             return true;
         }
+
+        /// <summary>
+        /// Remove all objects from the current Layer in <see cref="LayerStack"/> with index <see cref="activeLayer"/>.
+        /// </summary>
+        public static void ClearActiveLayerObject(bool clearLights = true)
+        {
+            if(ActiveLayer().GetType() == typeof(Layer3D))
+            {
+                ((Layer3D)ActiveLayer()).gameObjects = new List<GameObject>();
+                if(clearLights)
+                {
+                    lightSources = new LightSource[0];
+                    dirLights    = new DirectionalLight[0];
+                    spotLights   = new SpotLight[0];
+                    pointLights  = new PointLight[0];
+                }
+            }
+        }
         #endregion
 
     }

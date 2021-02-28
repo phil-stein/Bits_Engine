@@ -25,8 +25,9 @@ top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing bo
 - [x] check the player leaving out the left/right side of the map
 - [ ] make it be abled to move between sections
 - [x] make the EnvGen. be abled to have multiple strings/imgs as layers for the map, i.e. grass -> wall -> vines
-- [ ] make dif. models for each side of a water-facing tile 
-
+- [ ] make dif. models for each side of a water-facing tile
+- [ ] make a way to place object with coordinates not just tile
+ 
 - [ ] make the cliff-sides as ground-types
 - [ ] make the maploader / envcontroller surround the map with cliff / water
 - [ ] make rough models for the walls / etc.
@@ -36,6 +37,7 @@ top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing bo
 - [x] define the structure for tile-layout i.e. GroundType -> Structure -> Deco
 - [x] load maps from file [made loader, still have to make the map-creation in the EnvController]
 		-> @UNSURE: make a file-loading-util class in bits core ??? 
+- [ ] add BG color to the map-file
 
 - [x] make pushables
 - [x] @REFACTOR: make a base-class for player and pushables / all other dynamic map-entities

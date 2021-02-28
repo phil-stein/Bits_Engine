@@ -332,8 +332,12 @@ namespace BeSafe
                 AssetManager.GetTexture("plants01_dif"), AssetManager.GetTexture("blank_black"), 1f));
 
             AssetManager.AddMaterial("Mat_Crate01", new TexturedPhongMaterial(
-                        AssetManager.GetShader("Shader_Textured"),
-                        AssetManager.GetTexture("crate01_dif"), AssetManager.GetTexture("crate01_spec"), 1f));
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("crate01_dif"), AssetManager.GetTexture("crate01_spec"), 1f));
+
+            AssetManager.AddMaterial("Mat_Barrel01", new TexturedPhongMaterial(
+                AssetManager.GetShader("Shader_Textured"),
+                AssetManager.GetTexture("barrel01_dif"), AssetManager.GetTexture("barrel01_spec"), 1f));
 
 
             //cell shading / style experimentation

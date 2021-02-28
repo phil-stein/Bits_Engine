@@ -1,0 +1,11 @@
+8; 10; 1; TestMap02; Phil; 28.02.21;
+grass wall_corner; 		grass N; 			grass N; 					grass N; 	grass N; 				grass N; 		grass N; 		grass N;
+grass wall_side; 		grass N; 			grass N; 					grass N; 	grass N; 				grass N;		grass N; 		grass N; 
+grass wall_side; 		grass N; 			grass N; 					grass N; 	grass N; 				grass N;		grass N; 		grass N;
+grass wall_side; 		grass wall_side; 	grass N; 					grass N; 	grass wall_side; 		grass N;		grass N crate; 	grass N; 
+grass wall_side; 		grass wall_side; 	grass N; 					grass N; 	grass wall_side; 		grass N;		grass N; 		grass N; 
+grass wall_side; 		grass wall_side; 	grass pressure_plate; 		grass N; 	grass wall_side; 		grass N crate; 	grass N; 		grass N; 
+grass wall_side; 		grass wall_corner; 	grass wall_straight plant; 	grass N; 	grass wall_corner; 		grass N;		grass N; 		grass N;
+grass wall_side; 		grass N crate;		grass N; 					grass N; 	grass N; 				grass N; 		water N; 		grass N;
+grass wall_side; 		grass N; 			grass N; 					grass N; 	grass N; 				grass N; 		water N; 		water N;
+grass wall_corner; 		grass N; 			grass N; 					grass N; 	grass N; 				grass N; 		grass N; 		water N;

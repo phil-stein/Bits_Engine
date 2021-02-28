@@ -4,6 +4,7 @@ using BitsCore.InputSystem;
 using BitsCore.ObjectData.Components;
 using BitsCore.Rendering;
 using BitsCore.Utils;
+using System;
 using System.Numerics;
 
 namespace BeSafe.Scripts
@@ -20,13 +21,16 @@ namespace BeSafe.Scripts
         const float camFollowSpeed = 0.5f;
 
         // @UNSURE: use const floats here
-        Vector3 playerRot_Forward   = new Vector3(0f, 90f, 0f);
-        Vector3 playerRot_Backward  = new Vector3(0f, -90f, 0f);
-        Vector3 playerRot_Left      = new Vector3(0f, 180f, 0f);
-        Vector3 playerRot_Right     = new Vector3(0f, 0f, 0f);
+        Vector3 playerRot_Forward   = new Vector3(0f, -90f, 0f);    // 90f
+        Vector3 playerRot_Backward  = new Vector3(0f, 90f, 0f);     // -90f
+        Vector3 playerRot_Left      = new Vector3(0f, 0f, 0f);      // 180f
+        Vector3 playerRot_Right     = new Vector3(0f, 180f, 0f);    // 0f
         PlayerOrientation playerOrientation = PlayerOrientation.Forward;
         
         bool editorCamMode = false;
+
+        int curLevel = 1;
+        int maxLevel = 2;
 
         public PlayerController(int _curPosition, PlayerOrientation initialOrientation = PlayerOrientation.Forward) : base(_curPosition)
         {
@@ -132,6 +136,13 @@ namespace BeSafe.Scripts
             if (Input.IsDown(KeyCode.G))
             {
                 TweenUtils.TweenPos(gameObject, new Vector3(gameObject.transform.position.X, gameObject.transform.position.Y + 1f, gameObject.transform.position.Z), 0.2f, true);
+            }
+
+            if(Input.IsDown(KeyCode.Space))
+            {
+                curLevel += 1;
+                curLevel = curLevel > maxLevel ? 1 : (curLevel < 1 ? maxLevel : curLevel); 
+                EnvController.SwitchMap("test" + curLevel.ToString("00"));
             }
         }
 
