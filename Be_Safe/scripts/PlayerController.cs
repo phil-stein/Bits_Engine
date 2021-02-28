@@ -133,16 +133,17 @@ namespace BeSafe.Scripts
             }
             #endregion
 
-            if (Input.IsDown(KeyCode.G))
+            if (Input.IsPressed(KeyCode.G))
             {
                 TweenUtils.TweenPos(gameObject, new Vector3(gameObject.transform.position.X, gameObject.transform.position.Y + 1f, gameObject.transform.position.Z), 0.2f, true);
             }
 
-            if(Input.IsDown(KeyCode.Space))
+            if(Input.IsPressed(KeyCode.Space))
             {
-                curLevel += 1;
-                curLevel = curLevel > maxLevel ? 1 : (curLevel < 1 ? maxLevel : curLevel); 
+                curLevel++;
+                curLevel = curLevel > maxLevel ? 1 : curLevel; 
                 EnvController.SwitchMap("test" + curLevel.ToString("00"));
+                BBug.Log("switched to: test" + curLevel.ToString("00"));
             }
         }
 

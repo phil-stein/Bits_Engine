@@ -396,8 +396,7 @@ namespace BeSafe.Scripts
         public static void SwitchMap(string mapName)
         {
             //Background-Color ---------------------------------------------------------------------------------------------------------------------
-            Renderer.bgCol = new Vector3((float)166 / 255, (float)222 / 255, (float)255 / 255); //light-blue
-            //Renderer.bgCol = new Vector3((float)10 / 255, (float)16 / 255, (float)25 / 255); //darker-blue
+            // Renderer.bgCol = new Vector3((float)166 / 255, (float)222 / 255, (float)255 / 255); //light-blue
 
             //instatiates mainCam setting position and rotation, set the CameraMode
             Renderer.mainCam.transform.position = new Vector3(-30f, 18f, 0f);
@@ -407,6 +406,7 @@ namespace BeSafe.Scripts
             tileObjects = new Dictionary<int, MapObject>(); // clear the tile-objects
             Renderer.ClearActiveLayerObject(); // remove all objects
             Renderer.Submit(GenerateWorldTextFile(mapName));
+            Renderer.SetupAssets();
         }
 
     }
