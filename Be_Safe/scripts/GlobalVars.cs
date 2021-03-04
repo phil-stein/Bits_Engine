@@ -7,7 +7,9 @@ namespace BeSafe.Scripts
     // enums ---------------------------------------------------------------------------------------------------------
     public enum Direction { Up, Down, Left, Right };
 
-    public enum TileObjectType { Player, Pushable, PressurePlate }
+    public enum TileObjectType { Player, Pushable }
+
+    public enum TileInteractableType { PressurePlate }
 
 
     // classes -------------------------------------------------------------------------------------------------------
@@ -23,9 +25,9 @@ namespace BeSafe.Scripts
 
         public TileData(GroundType _groundType, StructureType _structureType, ObjectType[] _objectTypes)
         {
-            this.groundType = _groundType;
-            this.structureType = _structureType;
-            this.objectTypes = _objectTypes;
+            this.groundType     = _groundType;
+            this.structureType  = _structureType;
+            this.objectTypes    = _objectTypes;
         }
     }
 }

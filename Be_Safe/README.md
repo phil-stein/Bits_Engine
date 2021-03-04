@@ -38,6 +38,7 @@ top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing bo
 - [x] load maps from file [made loader, still have to make the map-creation in the EnvController]
 		-> @UNSURE: make a file-loading-util class in bits core ??? 
 - [ ] add BG color to the map-file
+		-> make an environment map BG
 
 - [x] make pushables
 - [x] @REFACTOR: make a base-class for player and pushables / all other dynamic map-entities
@@ -50,13 +51,14 @@ top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing bo
 - [x] add seperate text for current-tile [x] / player-pos[x] / draw-calls [x]
 
 ### GameDesign
-- [ ] find a name & rename project 
-- [x] define basic visual theme PostApocalyptic / Dystopian / Overgrown
-- [x] define art style realistic-cartoony
-- [ ] make basic design concept
+- [ ] find a name & rename project (mybe just stick with be safe ?)
+- [x] define basic visual theme: PostApocalyptic / Dystopian / Overgrown
+- [x] define art style: realistic-cartoony
+- [ ] make basic game-design concept
 - [ ] design level using the push mechanics
 
 ### Engine
+- [ ] improve memory usage (properly delting GO's, Shaders, Textures, etc.) 
 - [ ] finish the scene-system
 - [ ] make the textured materials have tint-colors for the albedo and specular maps
 - [ ] make the blank textures, primitives and shaders part of the BitsCore projects asset folder and copy them
@@ -70,6 +72,6 @@ top-down / birds-eyes-view perspective, tile-based, puzzle game about pushing bo
 
 - [x] floor is lit differently than the other objects
 - [x] movement "wraps" when moving out of bound to the left or right
-- [ ] rotate char in direction of key-press even if that move if blocked
+- [x] rotate char in direction of key-press even if that move if blocked
 - [ ] AssetManager error message when wrong asset-name
 - [ ] moving into pushable object on the left & right
