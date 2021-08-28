@@ -1,6 +1,8 @@
 # Bits Engine
 OpenGL &amp; C# Game-Engine for Windows
 
+**| not beeing worked on anymore |**
+
 <img src="https://github.com/phil-stein/Bits_Engine/blob/main/Bits_Engine/Bits_Engine-Logo_v08_512px.png" alt="logo" width="100">
 
 |<img src="https://github.com/phil-stein/Bits_Engine/blob/main/Screenshots/TestEnvironment_01.png" alt="screenshot_general" width="400">| <img src="https://github.com/phil-stein/Bits_Engine/blob/main/Screenshots/TestEnvironment_01_Wireframe.png" alt="screenshot_general" width="400"> |
